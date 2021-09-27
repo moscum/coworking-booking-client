@@ -1,0 +1,25 @@
+:root {
+  font-size: 16px;
+
+  /* Colors */
+  --black: #000000;
+  --white: #ffffff;
+  --blue-1: #53d8fb;
+  --blue-2: #1e5fc8;
+  --red: #f2542d;
+  --green: #47e056;
+  --gray-1: #808080;
+  --gray-2: #f0f0f0;
+
+  --primary: var(--blue-2);
+  --secondary: var(--blue-1);
+  --secondary-light: rgba(83, 216, 251, 0.25);
+  --accent: var(--red);
+
+  /* Borders */
+  --border-radius: 8px;
+
+  /* Fonts */
+  --content-font-family: Inter, --apple-system, Roboto, Ubuntu, sans-serif;
+  --title-font-family: Montserrat, --apple-system, Roboto, Ubuntu, sans-serif;
+}

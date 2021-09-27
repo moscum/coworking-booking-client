@@ -4,9 +4,9 @@ import styles from './Header.module.scss';
 
 const Header: React.FC = () => {
   return (
-    <div>
+    <header>
       <h1 className={styles.title}>Coworking booking system</h1>
-    </div>
+    </header>
   );
 };
 
