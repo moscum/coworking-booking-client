@@ -6,17 +6,21 @@ module.exports = {
     colors: {
       primary: 'var(--primary)',
       secondary: 'var(--secondary)',
-      'secondary-light': 'var(--secondary-light)',
       accent: 'var(--accent)',
       black: 'var(--black)',
       white: 'var(--white)',
-      green: 'var(--green)',
+      success: 'var(--success)',
       'gray-1': 'var(--gray-1)',
       'gray-2': 'var(--gray-2)',
     },
     fontFamily: {
       inter: 'var(--content-font-family)',
       montserrat: 'var(--title-font-family)',
+    },
+    borderRadius: {
+      none: '0',
+      DEFAULT: '.5rem',
+      full: '9999px',
     },
   },
   variants: {},
