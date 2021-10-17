@@ -22,6 +22,12 @@ module.exports = {
       DEFAULT: '.5rem',
       full: '9999px',
     },
+    flex: {
+      1: '1 1 0%',
+      auto: '1 1 auto',
+      none: 'none',
+      2: '2 2 0%',
+    },
   },
   variants: {},
   plugins: [],

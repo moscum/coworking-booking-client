@@ -2,10 +2,10 @@ import React from 'react';
 
 import { NextPage } from 'next';
 
-import Header from '@components/Header';
+import { UserLayout } from '@components/UserLayout';
 
 const Index: NextPage = () => {
-  return <Header />;
+  return <UserLayout />;
 };
 
 export default Index;
