@@ -11,15 +11,13 @@ const Login: NextPage = () => {
       login: 'test@example.com',
       password: 'test',
     };
-    await axios
-      .post('/security/login/', JSON.stringify(body))
-      .catch((error) => {
-        throw new Error(error);
-      });
+    await axios.post('/security/login', JSON.stringify(body)).catch((error) => {
+      throw new Error(error);
+    });
   }
 
   async function logout() {
-    await axios.post('/security/logout/').catch((error) => {
+    await axios.post('/security/logout').catch((error) => {
       throw new Error(error);
     });
   }

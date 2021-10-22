@@ -4,7 +4,7 @@ import '@src/styles/global.scss';
 import axios from 'axios';
 import { AppProps } from 'next/app';
 
-axios.defaults.baseURL = 'https://coworking-booking.herokuapp.com/api';
+axios.defaults.baseURL = 'https://localhost:5001/api';
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
