@@ -1,34 +1,25 @@
 import React from 'react';
 
-import axios from 'axios';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+
+import { useAuth } from '@src/contexts/auth';
 
 const Login: NextPage = () => {
-  const router = useRouter();
-  async function login() {
-    const body = {
-      login: 'test@example.com',
-      password: 'test',
-    };
-    await axios.post('/security/login', JSON.stringify(body)).catch((error) => {
-      throw new Error(error);
-    });
-  }
+  const { isLoading, login, logout, user, isAuthenticated } = useAuth();
 
-  async function logout() {
-    await axios.post('/security/logout').catch((error) => {
-      throw new Error(error);
-    });
-  }
-
+  if (isLoading) return <h1>LOADING...</h1>;
   return (
     <div className="login">
       <button onClick={login}>Login</button>
       <br />
       <button onClick={logout}>Logout</button>
       <br />
-      <button onClick={() => router.push('/')}>Tables</button>
+      <Link href="/">Tables</Link>
+      <br />
+      <button onClick={() => console.log(isLoading, isAuthenticated, user)}>
+        User
+      </button>
     </div>
   );
 };
