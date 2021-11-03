@@ -1,3 +1,9 @@
 export interface TableModel {
-  id: number;
+  id: string;
+  status: string;
+}
+
+export interface TableProps {
+  props: TableModel;
+  // className: string;
 }
