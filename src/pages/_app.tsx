@@ -1,15 +1,16 @@
 import React from 'react';
 
 import '@src/styles/global.scss';
-import axios from 'axios';
 import { AppProps } from 'next/app';
 
-axios.defaults.baseURL = 'https://localhost:5001/api';
-axios.defaults.withCredentials = true;
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+import { AuthProvider } from '@src/contexts/auth';
 
-const MyApp = ({ Component, pageProps }: AppProps) => (
-  <Component {...pageProps} />
-);
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
+  );
+};
 
 export default MyApp;

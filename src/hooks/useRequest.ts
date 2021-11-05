@@ -1,5 +1,7 @@
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
+
+import api from '@src/api';
 
 export type GetRequest = AxiosRequestConfig | null;
 
@@ -22,7 +24,7 @@ export function useRequest<Data = unknown, Error = unknown>(
     mutate,
   } = useSWR<AxiosResponse<Data>, AxiosError<Error>>(
     request && JSON.stringify(request),
-    () => axios.request<Data>(request!),
+    () => api.request<Data>(request!),
     {
       ...config,
     }

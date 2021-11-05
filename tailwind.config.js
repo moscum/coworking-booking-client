@@ -1,5 +1,6 @@
 module.exports = {
   mode: process.env.NODE_ENV && 'jit',
+  important: true,
   purge: ['./src/**/*.{js,ts,jsx,tsx}'],
   darkMode: false,
   theme: {
@@ -15,7 +16,7 @@ module.exports = {
     },
     fontFamily: {
       inter: 'var(--content-font-family)',
-      montserrat: 'var(--title-font-family)',
+      manrope: 'var(--title-font-family)',
     },
     borderRadius: {
       none: '0',

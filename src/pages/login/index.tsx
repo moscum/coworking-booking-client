@@ -1,36 +1,34 @@
 import React from 'react';
 
-import axios from 'axios';
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import { GetServerSideProps, NextPage } from 'next';
+
+import { AuthForm } from '@components/AuthForm/AuthForm';
+import { getUserServerSide } from '@src/utils';
 
 const Login: NextPage = () => {
-  const router = useRouter();
-  async function login() {
-    const body = {
-      login: 'test@example.com',
-      password: 'test',
-    };
-    await axios.post('/security/login', JSON.stringify(body)).catch((error) => {
-      throw new Error(error);
-    });
-  }
-
-  async function logout() {
-    await axios.post('/security/logout').catch((error) => {
-      throw new Error(error);
-    });
-  }
-
   return (
-    <div className="login">
-      <button onClick={login}>Login</button>
-      <br />
-      <button onClick={logout}>Logout</button>
-      <br />
-      <button onClick={() => router.push('/')}>Tables</button>
+    <div className={'flex flex-col items-center justify-center h-screen'}>
+      <AuthForm />
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const user = await getUserServerSide(ctx);
+
+  if (user) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+      props: {} as never,
+    };
+  }
+
+  return {
+    props: {} as never,
+  };
 };
 
 export default Login;
