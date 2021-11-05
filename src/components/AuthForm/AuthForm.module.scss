@@ -1,0 +1,7 @@
+.input {
+  margin-bottom: 0.75rem !important;
+
+  &::placeholder {
+    color: var(--black);
+  }
+}
