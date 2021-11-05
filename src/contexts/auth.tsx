@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
-import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
 
 import api from '@src/api';
 import { UserModel } from '@src/models';
@@ -9,28 +10,30 @@ interface AuthModel {
   isAuthenticated: boolean;
   isLoading: boolean;
   user: UserModel | null;
-  login: () => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<Partial<AuthModel>>({});
 
 export const AuthProvider: React.FC = ({ children }) => {
+  const router = useRouter();
   const [user, setUser] = useState<UserModel | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const isAuthenticated = !!user;
 
-  const login = async () => {
+  const login = async (email: string, password: string) => {
     setIsLoading(true);
-    const body = {
-      login: 'test@example.com',
-      password: 'test',
-    };
-    try {
-      await api.post('/security/login', JSON.stringify(body));
+    if (!isAuthenticated) {
+      await api.post(
+        '/security/login',
+        JSON.stringify({
+          login: email,
+          password,
+        })
+      );
       await api.get<UserModel>('/user').then((res) => setUser(res.data));
-    } catch (err) {
-      console.log(err);
+      await router.push('/');
     }
     setIsLoading(false);
   };
@@ -38,17 +41,16 @@ export const AuthProvider: React.FC = ({ children }) => {
   const logout = async () => {
     setIsLoading(true);
     if (isAuthenticated) {
-      await api.post('/security/logout').catch((error) => {
-        console.log(error);
-      });
+      await api.post('/security/logout');
       setUser(null);
+      await router.push('/');
     }
     setIsLoading(false);
   };
 
   useEffect(() => {
     setIsLoading(true);
-    const token = Cookies.get('SID');
+    const token = parseCookies().SID;
     if (!token) {
       setUser(null);
       setIsLoading(false);

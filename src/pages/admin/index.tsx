@@ -2,22 +2,19 @@ import React from 'react';
 
 import { GetServerSideProps, NextPage } from 'next';
 
-import { AppLoadingSpinner } from '@components/AppLoadingSpinner';
-import { UserLayout } from '@components/UserLayout';
-import { useAuth } from '@src/contexts/auth';
+import { UserModel } from '@src/models';
 import { getUserServerSide } from '@src/utils';
 
-const Index: NextPage = () => {
-  const { isLoading } = useAuth();
-  if (isLoading) return <AppLoadingSpinner />;
-  return <UserLayout />;
+const Index: NextPage<{ user: UserModel }> = ({ user }) => {
+  if (user.role !== 'Admin') return <h1>Access denied</h1>;
+  return <h1>Admin page should be here</h1>;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const user = await getUserServerSide(ctx);
 
   if (user) {
-    return { props: {} as never };
+    return { props: { user } as never };
   }
 
   return {
