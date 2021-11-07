@@ -1,9 +1,10 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
+import { AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 
-import api from '@src/api';
+import { user } from '@src/api';
 import { UserModel } from '@src/models';
 
 interface AuthModel {
@@ -18,21 +19,16 @@ const AuthContext = createContext<Partial<AuthModel>>({});
 
 export const AuthProvider: React.FC = ({ children }) => {
   const router = useRouter();
-  const [user, setUser] = useState<UserModel | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserModel | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const isAuthenticated = !!user;
+  const isAuthenticated = !!currentUser;
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     if (!isAuthenticated) {
-      await api.post(
-        '/security/login',
-        JSON.stringify({
-          login: email,
-          password,
-        })
-      );
-      await api.get<UserModel>('/user').then((res) => setUser(res.data));
+      await user.login(email, password);
+      const { data } = await user.getUser();
+      setCurrentUser(data);
       await router.push('/');
     }
     setIsLoading(false);
@@ -41,8 +37,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   const logout = async () => {
     setIsLoading(true);
     if (isAuthenticated) {
-      await api.post('/security/logout');
-      setUser(null);
+      await user.logout();
+      setCurrentUser(null);
       await router.push('/');
     }
     setIsLoading(false);
@@ -52,13 +48,15 @@ export const AuthProvider: React.FC = ({ children }) => {
     setIsLoading(true);
     const token = parseCookies().SID;
     if (!token) {
-      setUser(null);
+      setCurrentUser(null);
       setIsLoading(false);
     } else {
-      api
-        .get<UserModel>('/user')
-        .then((res) => setUser(res.data))
-        .catch(() => setUser(null))
+      user
+        .getUser()
+        .then((res: AxiosResponse<UserModel>) => {
+          setCurrentUser(res.data);
+        })
+        .catch(() => setCurrentUser(null))
         .finally(() => setIsLoading(false));
     }
   }, []);
@@ -68,7 +66,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       value={{
         isLoading,
         isAuthenticated,
-        user,
+        user: currentUser,
         login,
         logout,
       }}
