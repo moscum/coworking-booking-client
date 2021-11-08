@@ -1,14 +1,13 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 import { AxiosResponse } from 'axios';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { parseCookies } from 'nookies';
 
 import { user } from '@src/api';
 import { UserModel } from '@src/models';
 
 interface AuthContextModel {
-  isAuthenticated: boolean;
   isLoading: boolean;
   user: UserModel | null;
   login: (email: string, password: string) => Promise<void>;
@@ -18,28 +17,29 @@ interface AuthContextModel {
 const AuthContext = createContext<Partial<AuthContextModel>>({});
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const router = useRouter();
   const [currentUser, setCurrentUser] = useState<UserModel | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const isAuthenticated = !!currentUser;
+  const isAuth = !!currentUser;
 
   const login = async (email: string, password: string) => {
-    setIsLoading(true);
-    if (!isAuthenticated) {
-      await user.login(email, password);
+    if (!isAuth) {
+      await user
+        .login(email, password)
+        .then(() => setIsLoading(true))
+        .catch(() => setIsLoading(false));
       const { data } = await user.getUser();
-      setCurrentUser(data);
-      await router.push('/');
+      await setCurrentUser(data);
+      await Router.push('/');
     }
     setIsLoading(false);
   };
 
   const logout = async () => {
     setIsLoading(true);
-    if (isAuthenticated) {
+    if (isAuth) {
       await user.logout();
       setCurrentUser(null);
-      await router.push('/');
+      await Router.push('/');
     }
     setIsLoading(false);
   };
@@ -65,7 +65,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     <AuthContext.Provider
       value={{
         isLoading,
-        isAuthenticated,
         user: currentUser,
         login,
         logout,
