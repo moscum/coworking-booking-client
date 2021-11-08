@@ -3,12 +3,14 @@ import React from 'react';
 import '@src/styles/global.scss';
 import { AppProps } from 'next/app';
 
-import { AuthProvider } from '@src/contexts/auth';
+import { AuthProvider, TableProvider } from '@src/contexts';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <AuthProvider>
-      <Component {...pageProps} />
+      <TableProvider>
+        <Component {...pageProps} />
+      </TableProvider>
     </AuthProvider>
   );
 };

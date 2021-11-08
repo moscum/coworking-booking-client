@@ -7,7 +7,7 @@ import { parseCookies } from 'nookies';
 import { user } from '@src/api';
 import { UserModel } from '@src/models';
 
-interface AuthModel {
+interface AuthContextModel {
   isAuthenticated: boolean;
   isLoading: boolean;
   user: UserModel | null;
@@ -15,7 +15,7 @@ interface AuthModel {
   logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<Partial<AuthModel>>({});
+const AuthContext = createContext<Partial<AuthContextModel>>({});
 
 export const AuthProvider: React.FC = ({ children }) => {
   const router = useRouter();

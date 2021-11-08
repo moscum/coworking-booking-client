@@ -1,79 +1,53 @@
-import React, { useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import 'classnames';
-import { TableProps } from '@src/models/TableModel';
+import cn from 'clsx';
 
-import styles from '../../styles/TablesArea.module.scss';
-import { TableContext, ChosenContext } from './TableContext';
+import { useTable } from '@src/contexts';
+import { TableModel } from '@src/models';
 
-export const Table: React.FC<TableProps> = (props) => {
-  const [selected, setSelected] = useState(false);
-  const [context, setContext] = useContext(TableContext);
-  const [chosenContext, setChosenContext] = useContext(ChosenContext);
-  let tableStatus = `w-4 h-4 border-solid border-white border-2 rounded ${styles.disabled} `;
-  let positionStatus = '';
-  let buttonStatus = '';
+import styles from '../TablesArea/TablesArea.module.scss';
 
-  const setValues = () => {
-    setSelected(!selected);
-    setContext(props.props.id);
-    setChosenContext(`${selected}`);
-    console.log(
-      'selected: ',
-      selected,
-      '   context: ',
-      context,
-      '   is table chosen: ',
-      chosenContext
-    );
+interface Props {
+  table: TableModel;
+  horizontal?: boolean;
+}
+
+export const Table: React.FC<Props> = ({ table, horizontal }) => {
+  const { selectedTable, setSelectedTable } = useTable();
+  const [active, setActive] = useState(false);
+
+  const handler = () => {
+    if (active) setSelectedTable!(null);
+    if (!active) setSelectedTable!(table);
   };
 
-  if (props.props.status === 'Busy') tableStatus += 'bg-accent ';
-  else if (props.props.status === 'Partially') tableStatus += 'bg-primary ';
-  else if (props.props.status === 'Free') tableStatus += 'bg-success ';
-  // console.log(selected);
-  if (props.props.id >= '5' && props.props.id <= '7') {
-    tableStatus += 'ml-6 -mt-5';
-    positionStatus += `${styles.allVertical} `;
-    buttonStatus += styles.buttonCardVertical;
-    if (props.props.id === '6') {
-      positionStatus += styles.tall;
-    } else if (props.props.id === '7') {
-      positionStatus += styles.lastVertical;
-    }
-    return (
-      <div className={positionStatus}>
-        <button
-          className={buttonStatus}
-          value={props.props.id}
-          // onClick={() => setSelected(!selected)}
-          onClick={setValues}
-        >
-          <div className={styles.disabled}>
-            {props.props.id}
-            <div className={tableStatus}></div>
-          </div>
-        </button>
-      </div>
-    );
-  }
-  tableStatus += `ml-6 mt-0.5 `;
-  positionStatus += `${styles.allHorizontal} `;
-  if (props.props.id === '9') positionStatus += styles.thirdColumnOne;
-  else if (props.props.id === '10') positionStatus += styles.thirdColumnTwo;
+  useEffect(() => {
+    setActive(false);
+    if (selectedTable === table) setActive(true);
+  }, [selectedTable, table]);
+
   return (
-    <div className={positionStatus}>
-      <button
-        className={styles.buttonCardHorizontal}
-        value={props.props.id}
-        // onClick={() => setSelected(!selected)}
-        onClick={setValues}
-      >
-        <div className={styles.disabled}>
-          {props.props.id}
-          <div className={tableStatus}></div>
-        </div>
-      </button>
-    </div>
+    <button
+      className={cn(
+        styles.table,
+        active ? 'bg-primary' : '',
+        horizontal ? styles.table_h : ''
+      )}
+      value={table.id}
+      onClick={handler}
+    >
+      <div className={styles.disabled}>
+        {table.id}
+        <div
+          className={cn(
+            'w-4 h-4 border-solid border-white border-2 rounded',
+            horizontal ? 'ml-6' : 'ml-6 -mt-5',
+            table.status === 'Free' ? 'bg-success' : '',
+            table.status === 'Partially' ? 'bg-primary' : '',
+            table.status === 'Busy' ? 'bg-accent' : ''
+          )}
+        />
+      </div>
+    </button>
   );
 };

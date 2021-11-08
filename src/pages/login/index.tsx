@@ -2,7 +2,7 @@ import React from 'react';
 
 import { GetServerSideProps, NextPage } from 'next';
 
-import { AuthForm } from '@components/AuthForm/AuthForm';
+import { AuthForm } from '@components/AuthForm';
 import { getUserServerSide } from '@src/utils';
 
 const Login: NextPage = () => {
