@@ -1,12 +1,13 @@
 {
-  "extends": [
-    "stylelint-config-airbnb",
-    "stylelint-config-recess-order",
-    "stylelint-prettier/recommended"
-  ],
-  "plugins": ["stylelint-order", "stylelint-scss"],
-  "rules": {
-    "rule-empty-line-before": ["always", {"ignore" : "first-nested"}],
-    "prettier/prettier": [true, {"endOfLine":"auto"}]
-  }
+    "extends": [
+        "stylelint-config-airbnb",
+        "stylelint-config-recess-order",
+        "stylelint-prettier/recommended"
+    ],
+    "plugins": ["stylelint-order", "stylelint-scss"],
+    "rules": {
+        "rule-empty-line-before": ["always", { "ignore": "first-nested" }],
+        "prettier/prettier": [true, { "endOfLine": "auto" }],
+        "max-nesting-depth": 3
+    }
 }

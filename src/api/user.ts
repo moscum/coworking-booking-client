@@ -8,7 +8,7 @@ export const user = {
     provider.post(
       '/security/login',
       JSON.stringify({
-        login: email,
+        email,
         password,
       })
     ),

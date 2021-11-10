@@ -18,13 +18,11 @@ export const TablesArea: React.FC = () => {
     { id: '10', status: 'Busy' },
   ];
   return (
-    <div className={'flex-2'}>
-      <div className={'h-3/5 my-32 mx-60 border-dashed border-4 border-black'}>
-        <div className={styles.tableArea}>
-          {tables.map((table) => (
-            <Table key={table.id} table={table} horizontal />
-          ))}
-        </div>
+    <div className={'flex-2 relative'}>
+      <div className={styles.tableArea}>
+        {tables.map((table) => (
+          <Table key={table.id} table={table} />
+        ))}
       </div>
     </div>
   );

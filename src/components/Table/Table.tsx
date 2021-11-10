@@ -9,10 +9,9 @@ import styles from '../TablesArea/TablesArea.module.scss';
 
 interface Props {
   table: TableModel;
-  horizontal?: boolean;
 }
 
-export const Table: React.FC<Props> = ({ table, horizontal }) => {
+export const Table: React.FC<Props> = ({ table }) => {
   const { selectedTable, setSelectedTable } = useTable();
   const [active, setActive] = useState(false);
 
@@ -28,11 +27,7 @@ export const Table: React.FC<Props> = ({ table, horizontal }) => {
 
   return (
     <button
-      className={cn(
-        styles.table,
-        active ? 'bg-primary' : '',
-        horizontal ? styles.table_h : ''
-      )}
+      className={cn(styles.table, active ? 'bg-primary' : '')}
       value={table.id}
       onClick={handler}
     >
@@ -40,8 +35,7 @@ export const Table: React.FC<Props> = ({ table, horizontal }) => {
         {table.id}
         <div
           className={cn(
-            'w-4 h-4 border-solid border-white border-2 rounded',
-            horizontal ? 'ml-6' : 'ml-6 -mt-5',
+            styles.tableStatusIndicator,
             table.status === 'Free' ? 'bg-success' : '',
             table.status === 'Partially' ? 'bg-primary' : '',
             table.status === 'Busy' ? 'bg-accent' : ''
