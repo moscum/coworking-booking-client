@@ -5,7 +5,7 @@ import { TablesArea } from '@components/TablesArea';
 
 export const UserLayout: React.FC = () => {
   return (
-    <div className={'bg-secondary h-screen flex'}>
+    <div className={'bg-white h-screen flex'}>
       <SideBar />
       <TablesArea />
     </div>

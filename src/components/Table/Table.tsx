@@ -1,79 +1,47 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-interface TableProps {
-  id: number;
-  status: string;
+import cn from 'clsx';
+
+import { useTable } from '@src/contexts';
+import { TableModel } from '@src/models';
+
+import styles from '../TablesArea/TablesArea.module.scss';
+
+interface Props {
+  table: TableModel;
 }
 
-export const Table: React.FC<TableProps> = (TableProps) => {
-  const [tableChosen, setTableChosen] = useState(TableProps.id);
+export const Table: React.FC<Props> = ({ table }) => {
+  const { selectedTable, setSelectedTable } = useTable();
+  const [active, setActive] = useState(false);
 
-  const ChangeValue = (e: any) => {
-    setTableChosen(e.target.value);
+  const handler = () => {
+    if (active) setSelectedTable!(null);
+    if (!active) setSelectedTable!(table);
   };
 
-  if (TableProps.status === 'occupied for day') {
-    return (
-      <div>
-        <button
-          className={
-            'bg-gray-2 w-8 h-16 focus:opacity-75 hover:opacity-75 text-white font-bold'
-          }
-          value={tableChosen}
-          onClick={ChangeValue}
-        >
-          <div>
-            {TableProps.id}
-            <div
-              className={
-                'bg-accent w-4 h-4 border-solid border-white border-2 rounded absolute ml-6 -mt-5'
-              }
-            ></div>
-          </div>
-        </button>
-      </div>
-    );
-  }
-  if (TableProps.status === 'occupied for time slot') {
-    return (
-      <div>
-        <button
-          className={
-            'bg-gray-2 w-8 h-16 focus:opacity-75 hover:opacity-75 text-white font-bold'
-          }
-          value={tableChosen}
-          onClick={ChangeValue}
-        >
-          <div>
-            {TableProps.id}
-            <div
-              className={
-                'bg-success w-4 h-4 border-solid border-white border-2 rounded absolute ml-6 -mt-5'
-              }
-            ></div>
-          </div>
-        </button>
-      </div>
-    );
-  }
+  useEffect(() => {
+    setActive(false);
+    if (selectedTable === table) setActive(true);
+  }, [selectedTable, table]);
+
   return (
-    <div>
-      <button
-        className={
-          'bg-gray-2 w-8 h-16 focus:opacity-75 hover:opacity-75 text-white font-bold'
-        }
-        value={tableChosen}
-        onClick={ChangeValue}
-      >
-        <div>
-          {TableProps.id}
-          <div
-            className={
-              'bg-primary w-4 h-4 border-solid border-white border-2 rounded absolute ml-6 -mt-5'
-            }
-          ></div>
-        </div>
-      </button>
-    </div>
+    <button
+      className={cn(styles.table, active ? 'bg-primary' : '')}
+      value={table.id}
+      onClick={handler}
+    >
+      <div className={styles.disabled}>
+        {table.id}
+        <div
+          className={cn(
+            styles.tableStatusIndicator,
+            table.status === 'Free' ? 'bg-success' : '',
+            table.status === 'Partially' ? 'bg-primary' : '',
+            table.status === 'Busy' ? 'bg-accent' : ''
+          )}
+        />
+      </div>
+    </button>
   );
 };

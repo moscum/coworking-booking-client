@@ -1,3 +1,4 @@
 export interface TableModel {
-  id: number;
+  id: string;
+  status: string;
 }

@@ -8,13 +8,13 @@ export const user = {
     provider.post(
       '/security/login',
       JSON.stringify({
-        login: email,
+        email,
         password,
       })
     ),
 
   logout: (): Promise<AxiosResponse<any>> => provider.post('/security/logout'),
 
-  getUser: (...rest: any): Promise<AxiosResponse<UserModel>> =>
-    provider.get('/user', ...rest),
+  getUser: (options?: any): Promise<AxiosResponse<UserModel>> =>
+    provider.get('/user', options),
 };

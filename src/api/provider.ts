@@ -1,13 +1,9 @@
 import Axios from 'axios';
 
-const urls = {
-  test: `http://localhost:5000/api`,
-  development: 'http://localhost:5000/api',
-  production: '/api',
-};
+const baseUrl = `http://localhost:5000/api`;
 
 export const provider = Axios.create({
-  baseURL: urls[process.env.NODE_ENV],
+  baseURL: baseUrl,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
