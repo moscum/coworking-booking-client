@@ -1,13 +1,39 @@
 {
-    "extends": [
-        "stylelint-config-airbnb",
-        "stylelint-config-recess-order",
-        "stylelint-prettier/recommended"
+  "extends": [
+    "stylelint-config-recommended-scss",
+    "stylelint-config-recess-order",
+    "stylelint-prettier/recommended"
+  ],
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    "rule-empty-line-before": [
+      "always",
+      {
+        "ignore": "first-nested"
+      }
     ],
-    "plugins": ["stylelint-order", "stylelint-scss"],
-    "rules": {
-        "rule-empty-line-before": ["always", { "ignore": "first-nested" }],
-        "prettier/prettier": [true, { "endOfLine": "auto" }],
-        "max-nesting-depth": 3
-    }
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "tailwind",
+          "apply",
+          "variants",
+          "responsive",
+          "screen"
+        ]
+      }
+    ],
+    "declaration-block-trailing-semicolon": null,
+    "no-descending-specificity": null,
+    "prettier/prettier": [
+      true,
+      {
+        "endOfLine": "auto"
+      }
+    ]
+  }
 }
