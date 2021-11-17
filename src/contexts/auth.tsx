@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 import Router from 'next/router';
 import { parseCookies } from 'nookies';
 
-import { user } from '@src/api';
+import { api } from '@src/api';
 import { UserModel } from '@src/models';
 
 interface AuthContextModel {
@@ -23,11 +23,11 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     if (!isAuth) {
-      await user
+      await api.user
         .login(email, password)
         .then(() => setIsLoading(true))
         .catch(() => setIsLoading(false));
-      const { data } = await user.getUser();
+      const { data } = await api.user.getUser();
       await setCurrentUser(data);
       await Router.push('/');
     }
@@ -37,7 +37,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   const logout = async () => {
     setIsLoading(true);
     if (isAuth) {
-      await user.logout();
+      await api.user.logout();
       setCurrentUser(null);
       await Router.push('/');
     }
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       setCurrentUser(null);
       setIsLoading(false);
     } else {
-      user
+      api.user
         .getUser()
         .then((res: AxiosResponse<UserModel>) => {
           setCurrentUser(res.data);

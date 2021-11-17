@@ -1,3 +1,11 @@
-export { provider } from './provider';
-export { user } from './user';
-export { table } from './table';
+import { provider } from './provider';
+import { reservation } from './reservation';
+import { table } from './table';
+import { user } from './user';
+
+export const api = {
+  provider,
+  user,
+  table,
+  reservation,
+};
