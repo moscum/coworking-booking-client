@@ -3,14 +3,14 @@ import React from 'react';
 import '@src/styles/global.scss';
 import { AppProps } from 'next/app';
 
-import { AuthProvider, TableProvider } from '@src/contexts';
+import { AuthProvider, ReservationProvider } from '@src/contexts';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <AuthProvider>
-      <TableProvider>
+      <ReservationProvider>
         <Component {...pageProps} />
-      </TableProvider>
+      </ReservationProvider>
     </AuthProvider>
   );
 };

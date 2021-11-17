@@ -8,9 +8,8 @@
   width: 480px;
   height: 480px;
   margin: auto;
-  border: 4px dashed black;
-  // background: linear-gradient(101.72deg, #E3FAFC 15.98%, #E3FAFC 15.99%, #C1F2FF 89.51%);
-  // border-radius: 16px;
+  background: #c1f2ff;
+  border-radius: 16px;
 
   :nth-child(4) {
     grid-row-start: 4;
@@ -39,8 +38,9 @@
   font-weight: bold;
   color: var(--black);
   cursor: pointer;
-  background-color: var(--gray-1);
-  transition: 0.25s;
+  background-color: var(--white);
+  border-radius: 0.175rem;
+  transition: 0.15s;
 }
 
 .tableStatusIndicator {

@@ -1,19 +1,36 @@
 import React from 'react';
 
-import { CalendarDropdown } from '@components/Calendar';
-import { useTable } from '@src/contexts';
+import { DatePicker } from '@components/DatePicker';
+import { useReservation } from '@src/contexts';
 import { useAuth } from '@src/contexts/auth';
 
 export const SideBar: React.FC = () => {
   const { logout } = useAuth();
-  const { selectedTable, isTableSelected } = useTable();
+  const { selectedTable, reservations } = useReservation();
+
   return (
     <div className={'bg-white flex-1 p-8 py-6'}>
-      <h1 className={'text-4xl'}>Выберите дату</h1>
-      <h1>{`Is table selected: ${isTableSelected}`}</h1>
-      <h1>{`Table id: ${selectedTable && selectedTable?.id}`}</h1>
-      <button onClick={logout}>Logout</button>
-      <CalendarDropdown />
+      <h1 className={'text-4xl'}>
+        {selectedTable ? `Стол №${selectedTable?.id}` : 'Выберите стол'}
+      </h1>
+      <DatePicker />
+      <p>
+        Reservation start:{' '}
+        {reservations &&
+          reservations.map((i) => (
+            <span key={i.id}>{`${i.reservationStart}`}</span>
+          ))}
+      </p>
+      <p>
+        Reservation end:{' '}
+        {reservations &&
+          reservations.map((i) => (
+            <span key={i.id}>{`${i.reservationEnd}`}</span>
+          ))}
+      </p>
+      <div>
+        <button onClick={logout}>Logout</button>
+      </div>
     </div>
   );
 };

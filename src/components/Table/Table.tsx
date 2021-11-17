@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import cn from 'clsx';
 
-import { useTable } from '@src/contexts';
+import { useReservation } from '@src/contexts';
 import { TableModel } from '@src/models';
 
 import styles from '../TablesArea/TablesArea.module.scss';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const Table: React.FC<Props> = ({ table }) => {
-  const { selectedTable, setSelectedTable } = useTable();
+  const { selectedTable, setSelectedTable } = useReservation();
   const [active, setActive] = useState(false);
 
   const handler = () => {
@@ -27,7 +27,7 @@ export const Table: React.FC<Props> = ({ table }) => {
 
   return (
     <button
-      className={cn(styles.table, active ? 'bg-primary' : '')}
+      className={cn(styles.table, active ? 'bg-primary text-white' : '')}
       value={table.id}
       onClick={handler}
     >
