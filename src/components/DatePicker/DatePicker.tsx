@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Calendar } from 'clcm';
 import clsx from 'clsx';
@@ -15,7 +15,16 @@ const variants: Variants = {
 export const DatePicker: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = React.useState(false);
-  const { selectedDate, setSelectedDate } = useReservation();
+  const { selectedDate, setSelectedDate, selectedTable } = useReservation();
+
+  useEffect(() => {
+    if (!selectedTable) {
+      setVisible(true);
+      setDisplay(true);
+    } else {
+      setVisible(false);
+    }
+  }, [selectedTable]);
 
   return (
     <div className={'relative'}>
@@ -52,8 +61,8 @@ export const DatePicker: React.FC = () => {
             !display && 'hidden'
           )}
           value={selectedDate}
-          onChange={async (da) => {
-            await setSelectedDate!(da);
+          onChange={async (date) => {
+            await setSelectedDate!(date);
           }}
         />
       </motion.div>
