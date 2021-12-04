@@ -1,5 +1,7 @@
 import React from 'react';
 
+import clsx from 'clsx';
+
 import { Table } from '@src/components/Table';
 
 import styles from './TablesArea.module.scss';
@@ -19,7 +21,12 @@ export const TablesArea: React.FC = () => {
   ];
   return (
     <div className={'flex-2 relative'}>
-      <div className={styles.tableArea}>
+      <div
+        className={clsx(
+          'grid grid-flow-col items-center justify-items-center absolute inset-0 m-auto',
+          styles.tableArea
+        )}
+      >
         {tables.map((table) => (
           <Table key={table.id} table={table} />
         ))}

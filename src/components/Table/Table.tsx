@@ -5,7 +5,7 @@ import cn from 'clsx';
 import { useReservation } from '@src/contexts';
 import { TableModel } from '@src/models';
 
-import styles from '../TablesArea/TablesArea.module.scss';
+import styles from './Table.module.scss';
 
 interface Props {
   table: TableModel;

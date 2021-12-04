@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DatePicker } from '@components/DatePicker';
+import { DifferentDatePicker } from '@components/DifferentDatePicker';
 import { useReservation } from '@src/contexts';
 import { useAuth } from '@src/contexts/auth';
 
@@ -31,6 +32,7 @@ export const SideBar: React.FC = () => {
       <div>
         <button onClick={logout}>Logout</button>
       </div>
+      <DifferentDatePicker />
     </div>
   );
 };

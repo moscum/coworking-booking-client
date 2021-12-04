@@ -1,13 +1,6 @@
 .tableArea {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-auto-flow: column;
-  align-items: center;
-  justify-items: center;
-  width: 480px;
-  height: 480px;
-  margin: auto;
+  width: 30rem;
+  height: 30rem;
   background: #c1f2ff;
   border-radius: 16px;
 
@@ -30,23 +23,4 @@
       }
     }
   }
-}
-
-.table {
-  width: 4rem;
-  height: 2rem;
-  font-weight: bold;
-  color: var(--black);
-  cursor: pointer;
-  background-color: var(--white);
-  border-radius: 0.175rem;
-  transition: 0.15s;
-}
-
-.tableStatusIndicator {
-  width: 1rem;
-  height: 1rem;
-  margin-left: 1.5rem;
-  border: 2px solid var(--white);
-  border-radius: 50%;
 }
