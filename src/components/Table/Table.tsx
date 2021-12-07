@@ -2,28 +2,25 @@ import React, { useEffect, useState } from 'react';
 
 import cn from 'clsx';
 
-import { useReservation } from '@src/contexts';
-import { TableModel } from '@src/models';
+import { useDispatch, useSelector } from '@src/hooks';
+import { selectTable, selectTables } from '@store/table';
 
 import styles from '../TablesArea/TablesArea.module.scss';
-
-interface Props {
-  table: TableModel;
-}
+import { Props } from './Table.types';
 
 export const Table: React.FC<Props> = ({ table }) => {
-  const { selectedTable, setSelectedTable } = useReservation();
+  const { selectedTable } = useSelector(selectTables);
   const [active, setActive] = useState(false);
 
+  const dispatch = useDispatch();
   const handler = () => {
-    if (active) setSelectedTable!(null);
-    if (!active) setSelectedTable!(table);
+    if (!active) dispatch(selectTable(table.id));
   };
 
   useEffect(() => {
     setActive(false);
     if (selectedTable === table) setActive(true);
-  }, [selectedTable, table]);
+  }, [selectedTable]);
 
   return (
     <button
