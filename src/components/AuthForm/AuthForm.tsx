@@ -7,7 +7,7 @@ import { login } from '@store/user';
 
 import styles from './AuthForm.module.scss';
 
-export const AuthForm: React.FC = () => {
+export const AuthForm: React.VFC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const dispatch = useDispatch();

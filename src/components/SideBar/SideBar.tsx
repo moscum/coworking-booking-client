@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from '@src/hooks';
 import { selectTables } from '@store/table';
 import { logout } from '@store/user';
 
-export const SideBar: React.FC = () => {
+export const SideBar: React.VFC = () => {
   const dispatch = useDispatch();
   const { selectedTable } = useSelector(selectTables);
 

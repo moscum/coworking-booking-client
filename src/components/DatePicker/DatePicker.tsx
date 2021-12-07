@@ -14,7 +14,7 @@ const variants: Variants = {
   visible: { opacity: 1 },
 };
 
-export const DatePicker: React.FC = () => {
+export const DatePicker: React.VFC = () => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = React.useState(false);

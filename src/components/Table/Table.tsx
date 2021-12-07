@@ -8,7 +8,7 @@ import { selectTable, selectTables } from '@store/table';
 import styles from '../TablesArea/TablesArea.module.scss';
 import { Props } from './Table.types';
 
-export const Table: React.FC<Props> = ({ table }) => {
+export const Table: React.VFC<Props> = ({ table }) => {
   const { selectedTable } = useSelector(selectTables);
   const [active, setActive] = useState(false);
 

@@ -8,7 +8,7 @@ import { getTables, selectTables } from '@store/table';
 
 import styles from './TablesArea.module.scss';
 
-export const TablesArea: React.FC = () => {
+export const TablesArea: React.VFC = () => {
   const dispatch = useDispatch();
   const { tables } = useSelector(selectTables);
 
