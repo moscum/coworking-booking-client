@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
-import { AppLoadingSpinner } from '@components/AppLoadingSpinner';
-import { AuthForm } from '@components/AuthForm';
+import AppLoadingSpinner from '@components/AppLoadingSpinner';
+import AuthForm from '@components/AuthForm';
 import { useDispatch, useSelector } from '@src/hooks';
 import { getUser, selectUser } from '@store/user';
 

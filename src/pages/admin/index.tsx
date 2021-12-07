@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
-import { AppLoadingSpinner } from '@components/AppLoadingSpinner';
+import AppLoadingSpinner from '@components/AppLoadingSpinner';
 import { useDispatch, useSelector } from '@src/hooks';
 import { User } from '@src/types';
 import { getUser, selectUser } from '@store/user';

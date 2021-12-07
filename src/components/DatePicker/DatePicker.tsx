@@ -14,7 +14,7 @@ const variants: Variants = {
   visible: { opacity: 1 },
 };
 
-export const DatePicker: React.VFC = () => {
+const DatePicker: React.VFC = () => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = React.useState(false);
@@ -64,3 +64,5 @@ export const DatePicker: React.VFC = () => {
     </div>
   );
 };
+
+export default DatePicker;

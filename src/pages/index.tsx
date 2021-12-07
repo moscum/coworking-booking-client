@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
-import { AppLoadingSpinner } from '@components/AppLoadingSpinner';
-import { SideBar } from '@components/SideBar';
-import { TablesArea } from '@components/TablesArea';
+import AppLoadingSpinner from '@components/AppLoadingSpinner';
+import SideBar from '@components/SideBar';
+import TablesArea from '@components/TablesArea';
 import { useDispatch, useSelector } from '@src/hooks';
 import { getUser, selectUser } from '@store/user';
 

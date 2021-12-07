@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 
 import cn from 'clsx';
 
-import { Table } from '@src/components/Table';
+import Table from '@src/components/Table';
 import { useDispatch, useSelector } from '@src/hooks';
 import { getTables, selectTables } from '@store/table';
 
 import styles from './TablesArea.module.scss';
 
-export const TablesArea: React.VFC = () => {
+const TablesArea: React.VFC = () => {
   const dispatch = useDispatch();
   const { tables } = useSelector(selectTables);
 
@@ -30,3 +30,5 @@ export const TablesArea: React.VFC = () => {
     </div>
   );
 };
+
+export default TablesArea;

@@ -4,7 +4,7 @@ import cn from 'clsx';
 
 import { SlotButtonProps } from '@components/SlotButton/SlotButton.types';
 
-export const SlotButton: React.VFC<SlotButtonProps> = ({
+const SlotButton: React.VFC<SlotButtonProps> = ({
   time,
   free,
   busy,
@@ -27,3 +27,5 @@ export const SlotButton: React.VFC<SlotButtonProps> = ({
     </button>
   );
 };
+
+export default SlotButton;

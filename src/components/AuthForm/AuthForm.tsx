@@ -7,7 +7,7 @@ import { login } from '@store/user';
 
 import styles from './AuthForm.module.scss';
 
-export const AuthForm: React.VFC = () => {
+const AuthForm: React.VFC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const dispatch = useDispatch();
@@ -44,3 +44,5 @@ export const AuthForm: React.VFC = () => {
     </form>
   );
 };
+
+export default AuthForm;

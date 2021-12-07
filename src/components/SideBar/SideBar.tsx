@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { DatePicker } from '@components/DatePicker';
-import { SlotButton } from '@components/SlotButton/SlotButton';
+import DatePicker from '@components/DatePicker';
+import SlotButton from '@components/SlotButton/SlotButton';
 import { useDispatch, useSelector } from '@src/hooks';
 import { selectTables } from '@store/table';
 import { logout } from '@store/user';
 
-export const SideBar: React.VFC = () => {
+const SideBar: React.VFC = () => {
   const dispatch = useDispatch();
   const { selectedTable } = useSelector(selectTables);
 
@@ -23,3 +23,5 @@ export const SideBar: React.VFC = () => {
     </div>
   );
 };
+
+export default SideBar;
