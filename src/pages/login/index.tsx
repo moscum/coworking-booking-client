@@ -1,38 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 
 import { AppLoadingSpinner } from '@components/AppLoadingSpinner';
 import { AuthForm } from '@components/AuthForm';
-import { useAuth } from '@src/contexts';
-import { getUserServerSide } from '@src/utils';
+import { useDispatch, useSelector } from '@src/hooks';
+import { getUser, selectUser } from '@store/user';
 
 const Login: NextPage = () => {
-  const { isLoading } = useAuth();
-  if (isLoading) return <AppLoadingSpinner />;
+  const dispatch = useDispatch();
+  const { isLoggedIn, isLoading, user } = useSelector(selectUser);
+  const router = useRouter();
+  useEffect(() => {
+    if (!user) dispatch(getUser());
+    if (isLoggedIn && !isLoading) router.replace('/');
+  }, [isLoggedIn, user]);
+  if (isLoading || isLoggedIn) return <AppLoadingSpinner />;
   return (
     <div className={'flex flex-col items-center justify-center h-screen'}>
       <AuthForm />
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const user = await getUserServerSide(ctx);
-
-  if (user) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-      props: {} as never,
-    };
-  }
-
-  return {
-    props: {} as never,
-  };
 };
 
 export default Login;

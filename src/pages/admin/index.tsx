@@ -1,33 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 
 import { AppLoadingSpinner } from '@components/AppLoadingSpinner';
-import { useAuth } from '@src/contexts';
-import { UserModel } from '@src/models';
-import { getUserServerSide } from '@src/utils';
+import { useDispatch, useSelector } from '@src/hooks';
+import { User } from '@src/types';
+import { getUser, selectUser } from '@store/user';
 
-const Index: NextPage<{ user: UserModel }> = ({ user }) => {
-  const { isLoading } = useAuth();
-  if (isLoading) return <AppLoadingSpinner />;
-  if (user.role !== 'Admin') return <h1>Access denied</h1>;
+const Index: NextPage<{ user: User }> = () => {
+  const dispatch = useDispatch();
+  const { isLoggedIn, isLoading, user } = useSelector(selectUser);
+  const router = useRouter();
+  useEffect(() => {
+    if (!user) dispatch(getUser());
+    if (user?.role !== 'Admin' && isLoggedIn && !isLoading) router.push('/');
+  }, [isLoggedIn, user, isLoading]);
+  if (isLoading || !isLoggedIn || user?.role !== 'Admin')
+    return <AppLoadingSpinner />;
   return <h1>Admin page should be here</h1>;
-};
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const user = await getUserServerSide(ctx);
-
-  if (user) {
-    return { props: { user } as never };
-  }
-
-  return {
-    redirect: {
-      permanent: false,
-      destination: '/login',
-    },
-    props: {} as never,
-  };
 };
 
 export default Index;

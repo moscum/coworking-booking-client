@@ -2,16 +2,15 @@ import React from 'react';
 
 import '@src/styles/global.scss';
 import { AppProps } from 'next/app';
+import { Provider } from 'react-redux';
 
-import { AuthProvider, ReservationProvider } from '@src/contexts';
+import store from '@store/store';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <AuthProvider>
-      <ReservationProvider>
-        <Component {...pageProps} />
-      </ReservationProvider>
-    </AuthProvider>
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
   );
 };
 

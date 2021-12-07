@@ -1,12 +1,14 @@
 import React from 'react';
 
 import { DatePicker } from '@components/DatePicker';
-import { useReservation } from '@src/contexts';
-import { useAuth } from '@src/contexts/auth';
+import { SlotButton } from '@components/SlotButton/SlotButton';
+import { useDispatch, useSelector } from '@src/hooks';
+import { selectTables } from '@store/table';
+import { logout } from '@store/user';
 
 export const SideBar: React.FC = () => {
-  const { logout } = useAuth();
-  const { selectedTable, reservations } = useReservation();
+  const dispatch = useDispatch();
+  const { selectedTable } = useSelector(selectTables);
 
   return (
     <div className={'bg-white flex-1 p-8 py-6'}>
@@ -14,22 +16,9 @@ export const SideBar: React.FC = () => {
         {selectedTable ? `Стол №${selectedTable?.id}` : 'Выберите стол'}
       </h1>
       <DatePicker />
-      <p>
-        Reservation start:{' '}
-        {reservations &&
-          reservations.map((i) => (
-            <span key={i.id}>{`${i.reservationStart}`}</span>
-          ))}
-      </p>
-      <p>
-        Reservation end:{' '}
-        {reservations &&
-          reservations.map((i) => (
-            <span key={i.id}>{`${i.reservationEnd}`}</span>
-          ))}
-      </p>
+      <SlotButton time={new Date()} selected />
       <div>
-        <button onClick={logout}>Logout</button>
+        <button onClick={() => dispatch(logout())}>Logout</button>
       </div>
     </div>
   );

@@ -37,7 +37,9 @@
     "paths": {
       "@pages/*": ["pages/*"],
       "@components/*": ["components/*"],
-      "@src/*": ["./*"]
+      "@src/*": ["./*"],
+      "@store/*": ["store/*"],
+      "@hooks/*": ["hooks/*"]
     }
   },
   "exclude": ["./out/**/*", "./node_modules/**/*"],
