@@ -1,29 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import cn from 'clsx';
 
-import { SlotButtonProps } from '@components/SlotButton/SlotButton.types';
+import { Reservation } from '@src/types';
 
-const SlotButton: React.VFC<SlotButtonProps> = ({
-  time,
-  free,
-  busy,
-  selected,
-  disabled,
-}) => {
-  time.setHours(1);
+interface Props {
+  reservations: Reservation[];
+  date: string;
+  hour: number;
+}
+
+const SlotButton: React.VFC<Props> = ({ reservations, hour, date }) => {
+  const [selected, setSelected] = useState(false);
+  const [status, setStatus] = useState('free');
+
+  const handleClick = () => {
+    setSelected(!selected);
+  };
+
+  useEffect(() => {
+    if (new Date().getTime() > new Date(date).setHours(hour))
+      setStatus('disabled');
+    else if (reservations.find((r) => new Date(r.date).getHours() === hour))
+      setStatus('busy');
+  }, []);
+
   return (
     <button
       className={cn(
         'w-16 h-7 rounded text-xl',
-        free && 'bg-gray-1 text-black',
-        busy && 'bg-accent text-white',
-        selected && 'bg-primary text-white',
-        disabled && 'bg-gray-1 text-gray-2'
+        {
+          'bg-primary text-white': selected,
+          'bg-gray-1': !selected && status === 'free',
+          'bg-gray-1 text-gray-2': status === 'disabled',
+          'bg-accent text-white': status === 'busy',
+        }
+        // slot.free ? 'bg-gray-1' : 'bg-gray-1 text-gray-2',
+        // slot.busy && 'bg-accent text-white'
       )}
-      disabled={disabled}
+      disabled={status !== 'free'}
+      onClick={handleClick}
     >
-      {`${time.getHours() < 10 ? '0' : ''}${time.getHours()}:00`}
+      {`${hour < 10 ? '0' : ''}${hour}:00`}
     </button>
   );
 };

@@ -1,28 +1,30 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import cn from 'clsx';
 
-import Table from '@src/components/Table';
-import { useDispatch, useSelector } from '@src/hooks';
-import { getTables, selectTables } from '@store/table';
+import TableButton from '@components/TableButton';
+import { useSelector } from '@src/hooks';
+import { selectTables } from '@store/table';
 
 import styles from './TablesArea.module.scss';
 
 const TablesArea: React.VFC = () => {
-  const dispatch = useDispatch();
-  const { tables } = useSelector(selectTables);
-
-  useEffect(() => {
-    if (!tables) dispatch(getTables());
-  }, []);
+  const tables = useSelector(selectTables);
 
   return (
     <div className={'flex-2 relative'}>
       {tables ? (
         <div className={styles.tableArea}>
-          {tables.map((table) => (
-            <Table key={table.id} table={table} />
-          ))}
+          {Object.keys(tables).map((id) => {
+            const tableId = Number(id);
+            return (
+              <TableButton
+                key={id}
+                id={tableId}
+                reservations={tables[tableId] ?? []}
+              />
+            );
+          })}
         </div>
       ) : (
         <div className={cn(styles.tableArea, 'animate-shine')} />
