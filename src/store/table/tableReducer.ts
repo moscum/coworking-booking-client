@@ -1,12 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { Table } from '@src/types';
+import { Tables } from '@src/types';
 
 import * as actions from './tableActions';
 
 export type TableState = {
-  tables: Table[] | null;
-  selectedTable: Table | null;
+  tables: Tables | null;
+  selectedTable: number | null;
 };
 
 export const initialState: TableState = {
@@ -16,15 +16,20 @@ export const initialState: TableState = {
 
 export const tableReducer = createReducer(initialState, (builder) =>
   builder
-    .addCase(actions.getTables.fulfilled, (state, action) => {
+    .addCase(actions.getReservations.pending, (state) => {
+      state.tables = null;
+    })
+    .addCase(actions.getReservations.fulfilled, (state, action) => {
       state.tables = action.payload;
     })
-    .addCase(actions.getTables.rejected, (state) => {
+    .addCase(actions.getReservations.rejected, (state) => {
       state.tables = null;
     })
 
-    .addCase(actions.selectTable.fulfilled, (state, action) => {
-      state.selectedTable =
-        state.tables?.find((i) => i.id === action.payload) ?? null;
+    .addCase(actions.setSelectedTable.pending, (state) => {
+      state.selectedTable = null;
+    })
+    .addCase(actions.setSelectedTable.fulfilled, (state, action) => {
+      state.selectedTable = action.payload;
     })
 );

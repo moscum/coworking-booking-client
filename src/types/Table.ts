@@ -1,4 +1,10 @@
+import { Reservation } from '@src/types/Reservation';
+
 export interface Table {
   id: number;
-  status: string;
+  reservations: Reservation[];
+}
+
+export interface Tables {
+  [id: number]: Reservation[] | [];
 }

@@ -11,7 +11,7 @@ export const initialState: ReservationState = {
 };
 
 export const reservationReducer = createReducer(initialState, (builder) =>
-  builder.addCase(actions.selectDate.fulfilled, (state, action) => {
+  builder.addCase(actions.setDate.fulfilled, (state, action) => {
     state.date = action.payload;
   })
 );

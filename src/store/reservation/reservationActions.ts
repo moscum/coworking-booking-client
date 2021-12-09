@@ -1,8 +1,21 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const selectDate = createAsyncThunk(
+// export const getReservationsByDate = createAsyncThunk(
+//   'reservation/getReservationsByDate',
+//   async (date: Date) => {
+//     const { data } = await provider.get<Reservation[]>(
+//       '/reservation/getReservationsByDate',
+//       {
+//         params: {
+//           reservationDate: date.toISOString(),
+//         },
+//       }
+//     );
+//     return data;
+//   }
+// );
+
+export const setDate = createAsyncThunk(
   'reservation/selectDate',
-  async (date: Date) => {
-    return date.toISOString();
-  }
+  async (date: Date) => date.toISOString()
 );

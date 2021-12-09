@@ -6,8 +6,8 @@ import { motion, Variants } from 'framer-motion';
 
 import { useDispatch, useSelector } from '@src/hooks';
 import { getDateString } from '@src/utils';
-import { selectDate, selectReservation } from '@store/reservation';
-import { selectTables } from '@store/table';
+import { selectDate, setDate } from '@store/reservation';
+import { getReservations, selectTable } from '@store/table';
 
 const variants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.15 } },
@@ -16,10 +16,12 @@ const variants: Variants = {
 
 const DatePicker: React.VFC = () => {
   const dispatch = useDispatch();
+  const selectedTable = useSelector(selectTable);
+  const date = useSelector(selectDate);
+
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = React.useState(false);
-  const { selectedTable } = useSelector(selectTables);
-  const { date } = useSelector(selectReservation);
+
   useEffect(() => {
     if (!selectedTable) {
       setVisible(true);
@@ -28,6 +30,10 @@ const DatePicker: React.VFC = () => {
       setVisible(false);
     }
   }, [selectedTable]);
+
+  useEffect(() => {
+    if (date) dispatch(getReservations(date));
+  }, [date]);
 
   return (
     <div className={'relative'}>
@@ -58,7 +64,7 @@ const DatePicker: React.VFC = () => {
       >
         <Calendar
           className={cn('absolute w-8/12 transition-all', !display && 'hidden')}
-          onChange={(d) => dispatch(selectDate(d))}
+          onChange={(d) => dispatch(setDate(d))}
         />
       </motion.div>
     </div>
