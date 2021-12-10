@@ -7,32 +7,23 @@ import { motion, Variants } from 'framer-motion';
 import { useDispatch, useSelector } from '@src/hooks';
 import { getDateString } from '@src/utils';
 import { selectDate, setDate } from '@store/reservation';
-import { getReservations, selectTable } from '@store/table';
+import { getReservations } from '@store/table';
 
 const variants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.15 } },
   visible: { opacity: 1 },
 };
 
+// TODO: make outside click check
 const DatePicker: React.VFC = () => {
   const dispatch = useDispatch();
-  const selectedTable = useSelector(selectTable);
   const date = useSelector(selectDate);
 
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = React.useState(false);
 
   useEffect(() => {
-    if (!selectedTable) {
-      setVisible(true);
-      setDisplay(true);
-    } else {
-      setVisible(false);
-    }
-  }, [selectedTable]);
-
-  useEffect(() => {
-    if (date) dispatch(getReservations(date));
+    dispatch(getReservations(date!));
   }, [date]);
 
   return (

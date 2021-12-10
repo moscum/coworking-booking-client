@@ -13,7 +13,7 @@ const SideBar: React.VFC = () => {
   return (
     <div className={'bg-white flex-1 p-8 py-6 max-w-[540px]'}>
       <h1 className={'text-4xl'}>
-        {selectedTable ? `Стол №${selectedTable}` : 'Выберите стол'}
+        {selectedTable ? `Стол №${selectedTable.id}` : 'Выберите стол'}
       </h1>
       <DatePicker />
       <TimePicker />

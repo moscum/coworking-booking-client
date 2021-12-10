@@ -1,12 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { Tables } from '@src/types';
+import { Table, Tables } from '@src/types';
 
 import * as actions from './tableActions';
 
 export type TableState = {
   tables: Tables | null;
-  selectedTable: number | null;
+  selectedTable: Table | null;
 };
 
 export const initialState: TableState = {
@@ -26,9 +26,6 @@ export const tableReducer = createReducer(initialState, (builder) =>
       state.tables = null;
     })
 
-    .addCase(actions.setSelectedTable.pending, (state) => {
-      state.selectedTable = null;
-    })
     .addCase(actions.setSelectedTable.fulfilled, (state, action) => {
       state.selectedTable = action.payload;
     })
