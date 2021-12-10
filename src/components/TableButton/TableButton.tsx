@@ -4,24 +4,30 @@ import cn from 'clsx';
 
 import { useDispatch, useSelector } from '@src/hooks';
 import { Table } from '@src/types';
-import { setSelectedTable, selectTable } from '@store/table';
+import { setSelectedTable, selectTable, selectTables } from '@store/table';
 
 import styles from '../TablesArea/TablesArea.module.scss';
 
 const TableButton: React.VFC<Table> = ({ id, reservations }) => {
   const selectedTable = useSelector(selectTable);
   const [active, setActive] = useState(false);
+  const tables = useSelector(selectTables);
 
   const dispatch = useDispatch();
   const handleClick = () => {
-    if (!active) dispatch(setSelectedTable(id));
+    if (!active) dispatch(setSelectedTable({ id, reservations }));
     if (active) dispatch(setSelectedTable(null));
   };
 
   useEffect(() => {
     setActive(false);
-    if (selectedTable === id) setActive(true);
+    if (selectedTable?.id === id) setActive(true);
   }, [selectedTable]);
+
+  useEffect(() => {
+    if (selectedTable?.id === id)
+      dispatch(setSelectedTable({ id, reservations }));
+  }, [tables]);
 
   return (
     <button

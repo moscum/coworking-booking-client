@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { provider } from '@src/api/provider';
-import { Tables } from '@src/types';
+import { Table, Tables } from '@src/types';
 
 export const getReservations = createAsyncThunk(
   'table/getReservations',
@@ -17,7 +17,7 @@ export const getReservations = createAsyncThunk(
 
 export const setSelectedTable = createAsyncThunk(
   'table/setSelectedTable',
-  async (id: number | null) => {
-    return id;
+  async (table: Table | null) => {
+    return table;
   }
 );
