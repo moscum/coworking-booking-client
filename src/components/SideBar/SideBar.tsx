@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DatePicker from '@components/DatePicker';
+import ThreeDaysPicker from '@components/ThreeDaysPicker';
 import TimePicker from '@components/TimePicker';
 import { useDispatch, useSelector } from '@src/hooks';
 import { selectTable } from '@store/table';
@@ -17,6 +18,7 @@ const SideBar: React.VFC = () => {
       </h1>
       <DatePicker />
       <TimePicker />
+      <ThreeDaysPicker />
       <div>
         <button onClick={() => dispatch(logout())}>Logout</button>
       </div>

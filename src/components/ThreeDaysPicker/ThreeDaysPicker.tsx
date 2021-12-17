@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { Calendar } from 'clcm';
 import cn from 'clsx';
 import { motion, Variants } from 'framer-motion';
 
+import TimePicker from '@components/TimePicker';
 import { useDispatch, useSelector } from '@src/hooks';
 import { getDateString } from '@src/utils';
-import { selectDate, setDate } from '@store/reservation';
+import { selectDate } from '@store/reservation';
 import { getReservations } from '@store/table';
 
 const variants: Variants = {
@@ -14,13 +14,18 @@ const variants: Variants = {
   visible: { opacity: 1 },
 };
 
-// TODO: make outside click check
-const DatePicker: React.VFC = () => {
+const ThreeDaysPicker: React.VFC = () => {
   const dispatch = useDispatch();
   const date = useSelector(selectDate);
-
   const [visible, setVisible] = useState(false);
-  const [display, setDisplay] = React.useState(false);
+  const [display, setDisplay] = useState(false);
+
+  const NextDate = new Date(date!);
+  const NextDate2 = new Date(date!);
+  const NextDate3 = new Date(date!);
+  NextDate.setDate(NextDate.getDate() + 1);
+  NextDate2.setDate(NextDate2.getDate() + 2);
+  NextDate3.setDate(NextDate3.getDate() + 3);
 
   useEffect(() => {
     dispatch(getReservations(date!));
@@ -30,14 +35,13 @@ const DatePicker: React.VFC = () => {
     <div className={'relative'}>
       <div className={'flex items-center'}>
         <button
-          className={'text-primary text-xl font-manrope mb-1 z-0'}
+          className={'text-primary text-x1 font-manrope mb-1'}
           onClick={() => {
             setVisible(!visible);
             setDisplay(true);
           }}
         >
-          <span className="mr-1">{date && getDateString(new Date(date))}</span>
-
+          <span className="mr-1">Другие дни:</span>
           <img
             src={'/images/arrow.svg'}
             alt={'arrow'}
@@ -53,16 +57,21 @@ const DatePicker: React.VFC = () => {
         variants={variants}
         onAnimationComplete={!visible ? () => setDisplay(false) : undefined}
       >
-        <Calendar
-          className={cn(
-            'z-10 absolute w-8/12 transition-all',
-            !display && 'hidden'
-          )}
-          onChange={(d) => dispatch(setDate(d))}
-        />
+        <span className={cn('mr-1', !display && 'hidden')}>
+          {NextDate && getDateString(NextDate)}
+          <TimePicker />
+        </span>
+        <span className={cn('mr-1', !display && 'hidden')}>
+          {NextDate2 && getDateString(NextDate2)}
+          <TimePicker />
+        </span>
+        <span className={cn('mr-1', !display && 'hidden')}>
+          {NextDate3 && getDateString(NextDate3)}
+          <TimePicker />
+        </span>
       </motion.div>
     </div>
   );
 };
 
-export default DatePicker;
+export default ThreeDaysPicker;
