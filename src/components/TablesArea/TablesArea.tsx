@@ -1,36 +1,36 @@
 import React from 'react';
 
-import clsx from 'clsx';
+import cn from 'clsx';
 
-import { Table } from '@src/components/Table';
+import TableButton from '@components/TableButton';
+import { useSelector } from '@src/hooks';
+import { selectTables } from '@store/table';
 
 import styles from './TablesArea.module.scss';
 
-export const TablesArea: React.FC = () => {
-  const tables = [
-    { id: 1, status: 'Busy' },
-    { id: 2, status: 'Free' },
-    { id: 3, status: 'Partially' },
-    { id: 4, status: 'Busy' },
-    { id: 5, status: 'Partially' },
-    { id: 6, status: 'Free' },
-    { id: 7, status: 'Busy' },
-    { id: 8, status: 'Free' },
-    { id: 9, status: 'Partially' },
-    { id: 10, status: 'Busy' },
-  ];
+const TablesArea: React.VFC = () => {
+  const tables = useSelector(selectTables);
+
   return (
     <div className={'flex-2 relative'}>
-      <div
-        className={clsx(
-          'grid grid-flow-col items-center justify-items-center absolute inset-0 m-auto',
-          styles.tableArea
-        )}
-      >
-        {tables.map((table) => (
-          <Table key={table.id} table={table} />
-        ))}
-      </div>
+      {tables ? (
+        <div className={styles.tableArea}>
+          {Object.keys(tables).map((id) => {
+            const tableId = Number(id);
+            return (
+              <TableButton
+                key={id}
+                id={tableId}
+                reservations={tables[tableId] ?? []}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div className={cn(styles.tableArea, 'animate-shine')} />
+      )}
     </div>
   );
 };
+
+export default TablesArea;

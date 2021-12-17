@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from 'react';
 
 import { Calendar } from 'clcm';
-import clsx from 'clsx';
+import cn from 'clsx';
 import { motion, Variants } from 'framer-motion';
 
-import { useReservation } from '@src/contexts';
+import { useDispatch, useSelector } from '@src/hooks';
 import { getDateString } from '@src/utils';
+import { selectDate, setDate } from '@store/reservation';
+import { getReservations } from '@store/table';
 
 const variants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.15 } },
   visible: { opacity: 1 },
 };
 
-export const DatePicker: React.FC = () => {
+// TODO: make outside click check
+const DatePicker: React.VFC = () => {
+  const dispatch = useDispatch();
+  const date = useSelector(selectDate);
+
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = React.useState(false);
-  const { selectedDate, setSelectedDate, selectedTable } = useReservation();
 
   useEffect(() => {
-    if (!selectedTable) {
-      setVisible(true);
-      setDisplay(true);
-    } else {
-      setVisible(false);
-    }
-  }, [selectedTable]);
+    dispatch(getReservations(date!));
+  }, [date]);
 
   return (
     <div className={'relative'}>
@@ -36,9 +36,7 @@ export const DatePicker: React.FC = () => {
             setDisplay(true);
           }}
         >
-          <span className="mr-1">
-            {selectedDate && getDateString(selectedDate)}
-          </span>
+          <span className="mr-1">{date && getDateString(new Date(date))}</span>
 
           <img
             src={'/images/arrow.svg'}
@@ -56,16 +54,12 @@ export const DatePicker: React.FC = () => {
         onAnimationComplete={!visible ? () => setDisplay(false) : undefined}
       >
         <Calendar
-          className={clsx(
-            'absolute w-8/12 transition-all',
-            !display && 'hidden'
-          )}
-          value={selectedDate}
-          onChange={async (date) => {
-            await setSelectedDate!(date);
-          }}
+          className={cn('absolute w-8/12 transition-all', !display && 'hidden')}
+          onChange={(d) => dispatch(setDate(d))}
         />
       </motion.div>
     </div>
   );
 };
+
+export default DatePicker;

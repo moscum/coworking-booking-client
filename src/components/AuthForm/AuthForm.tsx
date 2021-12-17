@@ -2,21 +2,24 @@ import React, { useState } from 'react';
 
 import { Button, Input, useNotifications } from 'clcm';
 
-import { useAuth } from '@src/contexts/auth';
+import { useDispatch } from '@src/hooks';
+import { login } from '@store/user';
 
 import styles from './AuthForm.module.scss';
 
-export const AuthForm: React.FC = () => {
+const AuthForm: React.VFC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { login } = useAuth();
+  const dispatch = useDispatch();
   const { sendNotification } = useNotifications();
 
   // Todo: clcm ^2.0.10 close button bug will be fixed later
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    login!(email, password).catch(() =>
-      sendNotification('Ошибка', 'danger', 2.5, { onClose: undefined })
+    dispatch(login({ email, password })).catch(() =>
+      sendNotification('Неверный логин или пароль', 'danger', 2.5, {
+        onClose: undefined,
+      })
     );
   };
 
@@ -41,3 +44,5 @@ export const AuthForm: React.FC = () => {
     </form>
   );
 };
+
+export default AuthForm;

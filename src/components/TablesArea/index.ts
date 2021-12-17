@@ -1,1 +1,3 @@
-export * from './TablesArea';
+import TablesArea from './TablesArea';
+
+export default TablesArea;

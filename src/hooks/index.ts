@@ -1,3 +1,4 @@
-export { useRequest } from './useRequest';
-export * from './useTables';
-export * from './useReservations';
+import useDispatch from './useDispatch';
+import useSelector from './useSelector';
+
+export { useDispatch, useSelector };

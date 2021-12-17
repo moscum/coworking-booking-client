@@ -1,32 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 
-import { AppLoadingSpinner } from '@components/AppLoadingSpinner';
-import { UserLayout } from '@components/UserLayout';
-import { useAuth } from '@src/contexts/auth';
-import { getUserServerSide } from '@src/utils';
+import AppLoadingSpinner from '@components/AppLoadingSpinner';
+import SideBar from '@components/SideBar';
+import TablesArea from '@components/TablesArea';
+import { useDispatch, useSelector } from '@src/hooks';
+import { getUser, selectUser } from '@store/user';
 
 const Index: NextPage = () => {
-  const { isLoading } = useAuth();
-  if (isLoading) return <AppLoadingSpinner />;
-  return <UserLayout />;
-};
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const user = await getUserServerSide(ctx);
-
-  if (user) {
-    return { props: {} as never };
-  }
-
-  return {
-    redirect: {
-      permanent: false,
-      destination: '/login',
-    },
-    props: {} as never,
-  };
+  const dispatch = useDispatch();
+  const { isLoggedIn, isLoading, user } = useSelector(selectUser);
+  const router = useRouter();
+  useEffect(() => {
+    if (!user) dispatch(getUser());
+    if (!isLoggedIn && !isLoading) router.push('/login');
+  }, [isLoggedIn, user, isLoading]);
+  if (isLoading || !isLoggedIn) return <AppLoadingSpinner />;
+  return (
+    <div className={'bg-white h-screen flex'}>
+      <SideBar />
+      <TablesArea />
+    </div>
+  );
 };
 
 export default Index;
