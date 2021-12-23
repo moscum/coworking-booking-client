@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+// import {getState} from 'react-redux';
 
 import cn from 'clsx';
 import { motion, Variants } from 'framer-motion';
@@ -28,8 +29,8 @@ const ThreeDaysPicker: React.VFC = () => {
   NextDate3.setDate(NextDate3.getDate() + 3);
 
   useEffect(() => {
-    dispatch(getReservations(date!));
-  }, [date]);
+    dispatch(getReservations(getDateString(NextDate)!));
+  }, [getDateString(NextDate)]);
 
   return (
     <div className={'relative'}>
@@ -59,15 +60,15 @@ const ThreeDaysPicker: React.VFC = () => {
       >
         <span className={cn('mr-1', !display && 'hidden')}>
           {NextDate && getDateString(NextDate)}
-          <TimePicker />
+          <TimePicker Date={getDateString(NextDate)} />
         </span>
         <span className={cn('mr-1', !display && 'hidden')}>
           {NextDate2 && getDateString(NextDate2)}
-          <TimePicker />
+          <TimePicker Date={getDateString(NextDate2)} />
         </span>
         <span className={cn('mr-1', !display && 'hidden')}>
           {NextDate3 && getDateString(NextDate3)}
-          <TimePicker />
+          <TimePicker Date={getDateString(NextDate3)} />
         </span>
       </motion.div>
     </div>

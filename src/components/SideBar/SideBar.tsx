@@ -4,11 +4,13 @@ import DatePicker from '@components/DatePicker';
 import ThreeDaysPicker from '@components/ThreeDaysPicker';
 import TimePicker from '@components/TimePicker';
 import { useDispatch, useSelector } from '@src/hooks';
+import { selectDate } from '@src/store/reservation';
 import { selectTable } from '@store/table';
 import { logout } from '@store/user';
 
 const SideBar: React.VFC = () => {
   const dispatch = useDispatch();
+  const date = useSelector(selectDate) as string;
   const selectedTable = useSelector(selectTable);
 
   return (
@@ -17,7 +19,7 @@ const SideBar: React.VFC = () => {
         {selectedTable ? `Стол №${selectedTable.id}` : 'Выберите стол'}
       </h1>
       <DatePicker />
-      <TimePicker />
+      <TimePicker Date={date} />
       <ThreeDaysPicker />
       <div>
         <button onClick={() => dispatch(logout())}>Logout</button>
