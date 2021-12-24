@@ -1,15 +1,15 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
+import { authReducer } from './auth/authReducer';
 import { reservationReducer } from './reservation/reservationReducer';
 import { tableReducer } from './table/tableReducer';
-import { userReducer } from './user/userReducer';
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 const rootReducer = combineReducers({
   table: tableReducer,
-  user: userReducer,
+  auth: authReducer,
   reservation: reservationReducer,
 });
 

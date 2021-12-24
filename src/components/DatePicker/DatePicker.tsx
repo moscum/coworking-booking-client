@@ -55,7 +55,7 @@ const DatePicker: React.VFC = () => {
       >
         <Calendar
           className={cn('absolute w-8/12 transition-all', !display && 'hidden')}
-          onChange={(d) => dispatch(setDate(d))}
+          onChange={(d) => dispatch(setDate(d.toISOString()))}
         />
       </motion.div>
     </div>
