@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { User } from '@src/types';
 
-import * as actions from './userActions';
+import * as actions from './authActions';
 
 export type UserState = {
   user: User | null;
@@ -16,7 +16,7 @@ export const initialState: UserState = {
   isLoading: true,
 };
 
-export const userReducer = createReducer(initialState, (builder) =>
+export const authReducer = createReducer(initialState, (builder) =>
   builder
     .addCase(actions.getUser.pending, (state) => {
       state.isLoading = true;

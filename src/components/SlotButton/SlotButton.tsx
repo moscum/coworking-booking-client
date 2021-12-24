@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import cn from 'clsx';
 
-import { useSelector } from '@src/hooks';
+import { useDispatch, useSelector } from '@src/hooks';
+import { updateTimeSlots } from '@store/reservation';
 import { selectTable, selectTables } from '@store/table';
 
 interface Props {
@@ -13,30 +14,38 @@ interface Props {
 const SlotButton: React.VFC<Props> = ({ hour, date }) => {
   const [selected, setSelected] = useState(false);
   const [status, setStatus] = useState('disabled');
+  const time = new Date(date);
+  time.setHours(hour);
+
   const selectedTable = useSelector(selectTable);
   const tables = useSelector(selectTables);
 
+  const dispatch = useDispatch();
+
   const handleClick = () => {
     setSelected(!selected);
+    dispatch(updateTimeSlots(hour));
   };
+  //
+  // useEffect(() => {
+  //
+  // }, [selected]);
 
   useEffect(() => {
     if (!tables) setStatus('loading');
-    else if (
-      new Date().getTime() > new Date(date).setHours(hour) ||
-      !selectedTable
-    )
+    else if (new Date().getTime() > time.getTime() || !selectedTable)
       setStatus('disabled');
     else if (
       date &&
       selectedTable &&
-      selectedTable.reservations.find(
-        (r) => new Date(r.date).getHours() === hour
-      )
+      selectedTable.reservations.find((r) => {
+        console.log(new Date(r.date).getHours() + 19);
+        return new Date(r.date).getHours() + 19 === hour;
+      })
     ) {
       setStatus('busy');
     } else setStatus('free');
-  }, [selectedTable, date, tables]);
+  }, [selectedTable, date, tables, selectedTable?.reservations]);
 
   return (
     <button

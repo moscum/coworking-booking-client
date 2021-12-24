@@ -1,10 +1,11 @@
 import React from 'react';
 
 import DatePicker from '@components/DatePicker';
+import ReservationButton from '@components/ReservationButton';
 import TimePicker from '@components/TimePicker';
 import { useDispatch, useSelector } from '@src/hooks';
+import { logout } from '@store/auth';
 import { selectTable } from '@store/table';
-import { logout } from '@store/user';
 
 const SideBar: React.VFC = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const SideBar: React.VFC = () => {
       <DatePicker />
       <TimePicker />
       <div>
+        <ReservationButton />
         <button onClick={() => dispatch(logout())}>Logout</button>
       </div>
     </div>
