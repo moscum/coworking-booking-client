@@ -6,11 +6,11 @@ import { useRouter } from 'next/router';
 import AppLoadingSpinner from '@components/AppLoadingSpinner';
 import { useDispatch, useSelector } from '@src/hooks';
 import { User } from '@src/types';
-import { getUser, selectUser } from '@store/user';
+import { getUser, selectUserState } from '@store/auth';
 
 const Index: NextPage<{ user: User }> = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn, isLoading, user } = useSelector(selectUser);
+  const { isLoggedIn, isLoading, user } = useSelector(selectUserState);
   const router = useRouter();
   useEffect(() => {
     if (!user) dispatch(getUser());

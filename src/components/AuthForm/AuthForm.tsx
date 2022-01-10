@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button, Input, useNotifications } from 'clcm';
 
 import { useDispatch } from '@src/hooks';
-import { login } from '@store/user';
+import { login } from '@store/auth';
 
 import styles from './AuthForm.module.scss';
 

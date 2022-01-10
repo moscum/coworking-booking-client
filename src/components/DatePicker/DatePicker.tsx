@@ -54,11 +54,10 @@ const DatePicker: React.VFC = () => {
         onAnimationComplete={!visible ? () => setDisplay(false) : undefined}
       >
         <Calendar
-          className={cn(
-            'z-10 absolute w-8/12 transition-all',
-            !display && 'hidden'
-          )}
-          onChange={(d) => dispatch(setDate(d))}
+          className={cn('absolute w-8/12 transition-all', !display && 'hidden')}
+          onChange={(d) => {
+            dispatch(setDate(d.toLocaleDateString('sv')));
+          }}
         />
       </motion.div>
     </div>
