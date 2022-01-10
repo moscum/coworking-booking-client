@@ -1,31 +1,29 @@
 import React from 'react';
 
-import axios from 'axios';
-
 import { provider } from '@src/api';
 import { useDispatch, useSelector } from '@src/hooks';
-import { selectReservation, setDate } from '@store/reservation';
-import { selectTableId } from '@store/table';
+import { selectDate, selectReservation } from '@store/reservation';
+import { getReservations, selectTableId } from '@store/table';
 
 const ReservationButton: React.VFC = () => {
   const dispatch = useDispatch();
+
+  const date = useSelector(selectDate);
 
   const tableId = useSelector(selectTableId);
   const reservation = useSelector(selectReservation);
 
   const handleClick = async () => {
-    await axios
-      .request(
-        await provider.put(
-          '/reservation/addReservations',
-          JSON.stringify({
-            id: tableId,
-            date: reservation.date,
-            hours: reservation.hours,
-          })
-        )
+    await provider
+      .put(
+        '/reservation/addReservations',
+        JSON.stringify({
+          id: tableId,
+          date: reservation.date,
+          hours: reservation.hours,
+        })
       )
-      .catch(() => dispatch(setDate(new Date().toISOString())));
+      .finally(() => dispatch(getReservations(date!)));
   };
   return (
     <button
