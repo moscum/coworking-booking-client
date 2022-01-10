@@ -12,7 +12,6 @@ interface Props {
 }
 
 const SlotButton: React.VFC<Props> = ({ hour, date }) => {
-  const [selected, setSelected] = useState(false);
   const [status, setStatus] = useState('disabled');
   const time = new Date(date);
   time.setHours(hour);
@@ -23,13 +22,9 @@ const SlotButton: React.VFC<Props> = ({ hour, date }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    setSelected(!selected);
+    setStatus('selected');
     dispatch(updateTimeSlots(hour));
   };
-  //
-  // useEffect(() => {
-  //
-  // }, [selected]);
 
   useEffect(() => {
     if (!tables) setStatus('loading');
@@ -39,8 +34,7 @@ const SlotButton: React.VFC<Props> = ({ hour, date }) => {
       date &&
       selectedTable &&
       selectedTable.reservations.find((r) => {
-        console.log(new Date(r.date).getHours() + 19);
-        return new Date(r.date).getHours() + 19 === hour;
+        return new Date(r.date).getUTCHours() === hour;
       })
     ) {
       setStatus('busy');
@@ -50,8 +44,8 @@ const SlotButton: React.VFC<Props> = ({ hour, date }) => {
   return (
     <button
       className={cn('w-16 h-7 rounded text-xl', {
-        'bg-primary text-white': selected,
-        'bg-gray-1': !selected && status === 'free',
+        'bg-primary text-white': status === 'selected',
+        'bg-gray-1': status === 'free',
         'bg-gray-1 text-gray-2': status === 'disabled',
         'animate-shine text-transparent': status === 'loading',
         'bg-accent text-white': status === 'busy',

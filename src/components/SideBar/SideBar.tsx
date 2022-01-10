@@ -12,13 +12,13 @@ const SideBar: React.VFC = () => {
   const selectedTable = useSelector(selectTable);
 
   return (
-    <div className={'bg-white flex-1 p-8 py-6 max-w-[540px]'}>
+    <div className={'bg-white flex-1 p-8 py-6 max-w-[540px] flex flex-col'}>
       <h1 className={'text-4xl'}>
         {selectedTable ? `Стол №${selectedTable.id}` : 'Выберите стол'}
       </h1>
       <DatePicker />
       <TimePicker />
-      <div>
+      <div className={'mt-auto'}>
         <ReservationButton />
         <button onClick={() => dispatch(logout())}>Logout</button>
       </div>

@@ -55,7 +55,9 @@ const DatePicker: React.VFC = () => {
       >
         <Calendar
           className={cn('absolute w-8/12 transition-all', !display && 'hidden')}
-          onChange={(d) => dispatch(setDate(d.toISOString()))}
+          onChange={(d) => {
+            dispatch(setDate(d.toLocaleDateString('sv')));
+          }}
         />
       </motion.div>
     </div>
