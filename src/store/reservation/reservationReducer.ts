@@ -17,8 +17,11 @@ export const reservationReducer = createReducer(initialState, (builder) => {
     state.date = action.payload;
   });
   builder.addCase(actions.updateTimeSlots.fulfilled, (state, action) => {
-    const index = state.hours.findIndex((i) => i === action.payload);
-    if (index === -1) state.hours = [...state.hours, action.payload];
-    else state.hours.splice(index, 1);
+    if (action.payload === null) state.hours = [];
+    else {
+      const index = state.hours.findIndex((i) => i === action.payload);
+      if (index === -1) state.hours = [...state.hours, action.payload];
+      else state.hours.splice(index, 1);
+    }
   });
 });

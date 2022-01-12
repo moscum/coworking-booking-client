@@ -43,6 +43,10 @@
   transition: 0.15s;
 }
 
+.table:hover {
+  background-color: var(--gray-1);
+}
+
 .tableStatusIndicator {
   width: 1rem;
   height: 1rem;

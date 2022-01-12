@@ -4,6 +4,7 @@ import cn from 'clsx';
 
 import { useDispatch, useSelector } from '@src/hooks';
 import { Table } from '@src/types';
+import { updateTimeSlots } from '@store/reservation';
 import { setSelectedTable, selectTable, selectTables } from '@store/table';
 
 import styles from '../TablesArea/TablesArea.module.scss';
@@ -17,6 +18,7 @@ const TableButton: React.VFC<Table> = ({ id, reservations }) => {
   const handleClick = () => {
     if (!active) dispatch(setSelectedTable({ id, reservations }));
     if (active) dispatch(setSelectedTable(null));
+    dispatch(updateTimeSlots(null));
   };
 
   useEffect(() => {

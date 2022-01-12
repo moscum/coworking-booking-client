@@ -1,9 +1,15 @@
 import React from 'react';
 
+import cn from 'clsx';
+
 import { provider } from '@src/api';
 import { useDispatch, useSelector } from '@src/hooks';
-import { selectDate, selectReservation } from '@store/reservation';
-import { getReservations, selectTableId } from '@store/table';
+import {
+  selectDate,
+  selectReservation,
+  updateTimeSlots,
+} from '@store/reservation';
+import { getTables, selectTableId } from '@store/table';
 
 const ReservationButton: React.VFC = () => {
   const dispatch = useDispatch();
@@ -23,12 +29,21 @@ const ReservationButton: React.VFC = () => {
           hours: reservation.hours,
         })
       )
-      .finally(() => dispatch(getReservations(date!)));
+      .finally(() => {
+        dispatch(getTables(date!));
+        dispatch(updateTimeSlots(null));
+      });
   };
   return (
     <button
       onClick={handleClick}
-      className="block border-2 border-primary text-primary rounded px-1 py-1 my-2"
+      className={cn(
+        'w-min block border-2 border-primary  text-primary rounded px-3 py-2 mt-auto transition-all ',
+        reservation.hours.length === 0
+          ? 'border-gray-2 text-gray-2 cursor-not-allowed'
+          : 'hover:bg-blue-3'
+      )}
+      disabled={reservation.hours.length === 0}
     >
       Забронировать
     </button>

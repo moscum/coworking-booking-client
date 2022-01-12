@@ -16,13 +16,13 @@ export const initialState: TableState = {
 
 export const tableReducer = createReducer(initialState, (builder) =>
   builder
-    .addCase(actions.getReservations.pending, (state) => {
+    .addCase(actions.getTables.pending, (state) => {
       state.tables = null;
     })
-    .addCase(actions.getReservations.fulfilled, (state, action) => {
+    .addCase(actions.getTables.fulfilled, (state, action) => {
       state.tables = action.payload;
     })
-    .addCase(actions.getReservations.rejected, (state) => {
+    .addCase(actions.getTables.rejected, (state) => {
       state.tables = null;
     })
 

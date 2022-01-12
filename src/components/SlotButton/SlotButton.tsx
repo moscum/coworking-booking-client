@@ -22,7 +22,11 @@ const SlotButton: React.VFC<Props> = ({ hour, date }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    setStatus('selected');
+    if (status === 'selected') {
+      setStatus('free');
+    } else {
+      setStatus('selected');
+    }
     dispatch(updateTimeSlots(hour));
   };
 
@@ -43,14 +47,14 @@ const SlotButton: React.VFC<Props> = ({ hour, date }) => {
 
   return (
     <button
-      className={cn('w-16 h-7 rounded text-xl', {
+      className={cn('w-16 h-7 rounded text-xl transition-all', {
         'bg-primary text-white': status === 'selected',
-        'bg-gray-1': status === 'free',
-        'bg-gray-1 text-gray-2': status === 'disabled',
-        'animate-shine text-transparent': status === 'loading',
-        'bg-accent text-white': status === 'busy',
+        'bg-gray-1 hover:bg-blue-3': status === 'free',
+        'bg-gray-1 text-gray-2 cursor-not-allowed': status === 'disabled',
+        'animate-shine text-transparent cursor-wait': status === 'loading',
+        'bg-accent text-white cursor-not-allowed': status === 'busy',
       })}
-      disabled={status !== 'free'}
+      disabled={status !== 'free' && status !== 'selected'}
       onClick={handleClick}
     >
       {`${hour < 10 ? '0' : ''}${hour}:00`}

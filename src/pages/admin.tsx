@@ -6,9 +6,9 @@ import { useRouter } from 'next/router';
 import AppLoadingSpinner from '@components/AppLoadingSpinner';
 import { useDispatch, useSelector } from '@src/hooks';
 import { User } from '@src/types';
-import { getUser, selectUserState } from '@store/auth';
+import { getUser, selectUserState } from '@store/user';
 
-const Index: NextPage<{ user: User }> = () => {
+const Admin: NextPage<{ user: User }> = () => {
   const dispatch = useDispatch();
   const { isLoggedIn, isLoading, user } = useSelector(selectUserState);
   const router = useRouter();
@@ -21,4 +21,4 @@ const Index: NextPage<{ user: User }> = () => {
   return <h1>Admin page should be here</h1>;
 };
 
-export default Index;
+export default Admin;
