@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import AppLoadingSpinner from '@components/AppLoadingSpinner';
 import AuthForm from '@components/AuthForm';
 import { useDispatch, useSelector } from '@src/hooks';
-import { getUser, selectUserState } from '@store/auth';
+import { getUser, selectUserState } from '@store/user';
 
 const Login: NextPage = () => {
   const dispatch = useDispatch();

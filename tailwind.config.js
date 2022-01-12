@@ -6,8 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        inter: 'var(--content-font-family)',
-        manrope: 'var(--title-font-family)',
+        inter: 'var(--inter)',
+        manrope: 'var(--manrope)',
       },
       colors: {
         primary: 'var(--primary)',
@@ -16,6 +16,7 @@ module.exports = {
         success: 'var(--success)',
         'gray-1': 'var(--gray-1)',
         'gray-2': 'var(--gray-2)',
+        'blue-3': 'var(--blue-3)',
       },
       flex: {
         1: '1 1 0%',

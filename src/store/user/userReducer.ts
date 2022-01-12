@@ -1,22 +1,24 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { User } from '@src/types';
+import { Reservation, User } from '@src/types';
 
-import * as actions from './authActions';
+import * as actions from './userActions';
 
 export type UserState = {
   user: User | null;
+  reservations: Reservation[];
   isLoggedIn: boolean;
   isLoading: boolean;
 };
 
 export const initialState: UserState = {
   user: null,
+  reservations: [],
   isLoggedIn: false,
   isLoading: true,
 };
 
-export const authReducer = createReducer(initialState, (builder) =>
+export const userReducer = createReducer(initialState, (builder) =>
   builder
     .addCase(actions.getUser.pending, (state) => {
       state.isLoading = true;
@@ -48,5 +50,15 @@ export const authReducer = createReducer(initialState, (builder) =>
     })
     .addCase(actions.logout.rejected, (state) => {
       state.isLoading = false;
+    })
+
+    .addCase(actions.getReservations.pending, (state) => {
+      state.reservations = [];
+    })
+    .addCase(actions.getReservations.fulfilled, (state, action) => {
+      state.reservations = action.payload;
+    })
+    .addCase(actions.getReservations.rejected, (state) => {
+      state.reservations = [];
     })
 );

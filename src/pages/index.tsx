@@ -6,8 +6,9 @@ import { useRouter } from 'next/router';
 import AppLoadingSpinner from '@components/AppLoadingSpinner';
 import SideBar from '@components/SideBar';
 import TablesArea from '@components/TablesArea';
+import User from '@components/User';
 import { useDispatch, useSelector } from '@src/hooks';
-import { getUser, selectUserState } from '@store/auth';
+import { getUser, selectUserState } from '@store/user';
 
 const Index: NextPage = () => {
   const dispatch = useDispatch();
@@ -19,9 +20,12 @@ const Index: NextPage = () => {
   }, [isLoggedIn, user, isLoading]);
   if (isLoading || !isLoggedIn) return <AppLoadingSpinner />;
   return (
-    <div className={'bg-white h-screen flex'}>
+    <div className={'h-screen flex'}>
       <SideBar />
-      <TablesArea />
+      <div className={'flex justify-end align-top flex-2 relative px-8 py-6'}>
+        <User />
+        <TablesArea />
+      </div>
     </div>
   );
 };

@@ -12,19 +12,11 @@ body {
 }
 
 body {
-  font-family: var(--content-font-family);
+  font-family: var(--manrope);
 }
 
 input,
 textarea,
 select {
-  font-family: var(--content-font-family);
-}
-
-h1,
-h2,
-h3,
-h4,
-h5 {
-  font-family: var(--title-font-family);
+  font-family: var(--manrope);
 }
