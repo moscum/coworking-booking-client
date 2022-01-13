@@ -1,24 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import SlotButton from '@components/SlotButton';
-import { useDispatch } from '@src/hooks';
-import { getTables } from '@store/table';
+import { useSelector } from '@src/hooks';
+import { selectDate } from '@store/reservation';
+import { selectTables } from '@store/table';
 
-interface Props {
-  date: string;
-}
-
-const TimePicker: React.VFC<Props> = ({ date }) => {
+const TimePicker: React.VFC = () => {
   const hours: number[] = Array.from({ length: 14 }, (_, i) => 8 + i);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getTables(date));
-  }, [date]);
+  const date = useSelector(selectDate);
+  const tables = useSelector(selectTables);
 
   return (
     <div className="grid grid-cols-7 gap-1">
-      {date && hours.map((h, i) => <SlotButton key={i} date={date} hour={h} />)}
+      {tables
+        ? hours.map((h, i) => <SlotButton key={i} date={date!} hour={h} />)
+        : hours.map((_p, i) => (
+            <div key={i} className={'h-7 rounded animate-shine cursor-wait'} />
+          ))}
     </div>
   );
 };

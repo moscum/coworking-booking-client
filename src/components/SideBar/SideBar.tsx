@@ -6,11 +6,9 @@ import ReservationButton from '@components/ReservationButton';
 import ThreeDaysPicker from '@components/ThreeDaysPicker';
 import TimePicker from '@components/TimePicker';
 import { useSelector } from '@src/hooks';
-import { selectDate } from '@src/store/reservation';
 import { selectTable } from '@store/table';
 
 const SideBar: React.VFC = () => {
-  const date = useSelector(selectDate) as string;
   const selectedTable = useSelector(selectTable);
 
   return (
@@ -19,7 +17,7 @@ const SideBar: React.VFC = () => {
         {selectedTable ? `Стол №${selectedTable.id}` : 'Выберите стол'}
       </h1>
       <DatePicker />
-      <TimePicker date={date} />
+      <TimePicker />
       <ThreeDaysPicker />
       <RegularReservation />
       <ReservationButton />

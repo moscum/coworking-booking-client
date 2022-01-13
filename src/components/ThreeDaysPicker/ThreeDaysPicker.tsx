@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import cn from 'clsx';
 import { motion, Variants } from 'framer-motion';
 
 import TimePicker from '@components/TimePicker';
-import { useDispatch, useSelector } from '@src/hooks';
+import { useSelector } from '@src/hooks';
 import { getDateString } from '@src/utils';
 import { selectDate } from '@store/reservation';
-import { getTables } from '@store/table';
 
 const variants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.15 } },
@@ -15,7 +14,7 @@ const variants: Variants = {
 };
 
 const ThreeDaysPicker: React.VFC = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const date = useSelector(selectDate);
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = useState(false);
@@ -27,9 +26,9 @@ const ThreeDaysPicker: React.VFC = () => {
   NextDate2.setDate(NextDate2.getDate() + 2);
   NextDate3.setDate(NextDate3.getDate() + 3);
 
-  useEffect(() => {
-    dispatch(getTables(getDateString(NextDate)!));
-  }, [getDateString(NextDate)]);
+  // useEffect(() => {
+  //   dispatch(getTables(getDateString(NextDate)!));
+  // }, [getDateString(NextDate)]);
 
   return (
     <div className={'relative'}>
@@ -59,15 +58,15 @@ const ThreeDaysPicker: React.VFC = () => {
       >
         <span className={cn('mr-1', !display && 'hidden')}>
           {NextDate && getDateString(NextDate)}
-          <TimePicker date={getDateString(NextDate)} />
+          <TimePicker />
         </span>
         <span className={cn('mr-1', !display && 'hidden')}>
           {NextDate2 && getDateString(NextDate2)}
-          <TimePicker date={getDateString(NextDate2)} />
+          <TimePicker />
         </span>
         <span className={cn('mr-1', !display && 'hidden')}>
           {NextDate3 && getDateString(NextDate3)}
-          <TimePicker date={getDateString(NextDate3)} />
+          <TimePicker />
         </span>
       </motion.div>
     </div>
