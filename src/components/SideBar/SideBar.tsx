@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DatePicker from '@components/DatePicker';
+import RegularReservation from '@components/RegularReservation';
 import ReservationButton from '@components/ReservationButton';
 import ThreeDaysPicker from '@components/ThreeDaysPicker';
 import TimePicker from '@components/TimePicker';
@@ -18,8 +19,9 @@ const SideBar: React.VFC = () => {
         {selectedTable ? `Стол №${selectedTable.id}` : 'Выберите стол'}
       </h1>
       <DatePicker />
-      <TimePicker Date={date} />
+      <TimePicker date={date} />
       <ThreeDaysPicker />
+      <RegularReservation />
       <ReservationButton />
     </div>
   );

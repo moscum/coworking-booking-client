@@ -20,7 +20,7 @@ const DatePicker: React.VFC = () => {
   const date = useSelector(selectDate);
 
   const [visible, setVisible] = useState(false);
-  const [display, setDisplay] = React.useState(false);
+  const [display, setDisplay] = useState(false);
 
   useEffect(() => {
     dispatch(getTables(date!));
@@ -54,7 +54,7 @@ const DatePicker: React.VFC = () => {
       >
         <Calendar
           className={cn(
-            'absolute w-[360px] transition-all font-manrope',
+            'absolute w-[360px] transition-all font-manrope z-10',
             !display && 'hidden'
           )}
           onChange={(d) => {
