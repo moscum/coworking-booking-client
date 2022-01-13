@@ -12,7 +12,7 @@ const TablesArea: React.VFC = () => {
   const tables = useSelector(selectTables);
 
   return (
-    <div className={'flex-2 relative'}>
+    <>
       {tables ? (
         <div className={styles.tableArea}>
           {Object.keys(tables).map((id) => {
@@ -29,7 +29,7 @@ const TablesArea: React.VFC = () => {
       ) : (
         <div className={cn(styles.tableArea, 'animate-shine')} />
       )}
-    </div>
+    </>
   );
 };
 

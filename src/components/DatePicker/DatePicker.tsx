@@ -6,8 +6,8 @@ import { motion, Variants } from 'framer-motion';
 
 import { useDispatch, useSelector } from '@src/hooks';
 import { getDateString } from '@src/utils';
-import { selectDate, setDate } from '@store/reservation';
-import { getReservations } from '@store/table';
+import { selectDate, setDate, updateTimeSlots } from '@store/reservation';
+import { getTables } from '@store/table';
 
 const variants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.15 } },
@@ -23,27 +23,26 @@ const DatePicker: React.VFC = () => {
   const [display, setDisplay] = React.useState(false);
 
   useEffect(() => {
-    dispatch(getReservations(date!));
+    dispatch(getTables(date!));
+    dispatch(updateTimeSlots(null));
   }, [date]);
 
   return (
     <div className={'relative'}>
       <div className={'flex items-center'}>
         <button
-          className={'text-primary text-xl font-manrope mb-1 z-0'}
+          className={'text-primary text-xl font-manrope mb-1 flex items-center'}
           onClick={() => {
             setVisible(!visible);
             setDisplay(true);
           }}
         >
-          <span className="mr-1">{date && getDateString(new Date(date))}</span>
+          <p className="mr-1">{date && getDateString(new Date(date))}</p>
 
           <img
             src={'/images/arrow.svg'}
             alt={'arrow'}
-            className={
-              visible ? 'inline transition-all' : 'inline -rotate-90 transition'
-            }
+            className={visible ? 'transition-all' : '-rotate-90 transition'}
           />
         </button>
       </div>
@@ -54,7 +53,10 @@ const DatePicker: React.VFC = () => {
         onAnimationComplete={!visible ? () => setDisplay(false) : undefined}
       >
         <Calendar
-          className={cn('absolute w-8/12 transition-all', !display && 'hidden')}
+          className={cn(
+            'absolute w-[360px] transition-all font-manrope',
+            !display && 'hidden'
+          )}
           onChange={(d) => {
             dispatch(setDate(d.toLocaleDateString('sv')));
           }}

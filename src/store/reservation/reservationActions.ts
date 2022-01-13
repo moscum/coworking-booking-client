@@ -19,7 +19,8 @@ export const setDate = createAsyncThunk(
   'reservation/selectDate',
   async (date: string) => date
 );
+
 export const updateTimeSlots = createAsyncThunk(
-  'reservation/addTimeSlot',
-  async (time: number) => time
+  'reservation/addTimeSlots',
+  async (time: number | null) => time
 );

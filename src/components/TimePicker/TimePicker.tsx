@@ -4,7 +4,7 @@ import SlotButton from '@components/SlotButton';
 // import { useSelector } from '@src/hooks';
 // import { selectDate } from '@store/reservation';
 import { useDispatch } from '@src/hooks';
-import { getReservations } from '@store/table';
+import { getTables } from '@store/table';
 
 interface Date {
   Date: string;
@@ -16,7 +16,7 @@ const TimePicker: React.VFC<Date> = ({ Date }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getReservations(Date));
+    dispatch(getTables(Date));
   }, [Date]);
 
   return (
