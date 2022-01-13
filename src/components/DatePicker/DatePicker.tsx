@@ -29,9 +29,9 @@ const DatePicker: React.VFC = () => {
 
   return (
     <div className={'relative'}>
-      <div className={'flex items-center'}>
+      <div className={'flex items-center mb-2'}>
         <button
-          className={'text-primary text-xl font-manrope mb-1 flex items-center'}
+          className={'text-primary text-xl font-manrope flex items-center'}
           onClick={() => {
             setVisible(!visible);
             setDisplay(true);
@@ -47,6 +47,7 @@ const DatePicker: React.VFC = () => {
         </button>
       </div>
       <motion.div
+        className={'relative z-10'}
         initial="hidden"
         animate={visible ? 'visible' : 'hidden'}
         variants={variants}
@@ -54,7 +55,7 @@ const DatePicker: React.VFC = () => {
       >
         <Calendar
           className={cn(
-            'absolute w-[360px] transition-all font-manrope',
+            'absolute w-[360px] transition-all font-manrope bg-[#fafafa]',
             !display && 'hidden'
           )}
           onChange={(d) => {

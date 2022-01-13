@@ -6,7 +6,7 @@ import * as actions from './userActions';
 
 export type UserState = {
   user: User | null;
-  reservations: Reservation[];
+  reservations: Reservation[] | null;
   isLoggedIn: boolean;
   isLoading: boolean;
 };
@@ -53,7 +53,7 @@ export const userReducer = createReducer(initialState, (builder) =>
     })
 
     .addCase(actions.getReservations.pending, (state) => {
-      state.reservations = [];
+      state.reservations = null;
     })
     .addCase(actions.getReservations.fulfilled, (state, action) => {
       state.reservations = action.payload;

@@ -4,8 +4,8 @@ import { provider } from '@src/api/provider';
 import { Reservation, User } from '@src/types';
 
 export const getUser = createAsyncThunk('user/getUser', async () => {
-  const user = await provider.get<User>('/user');
-  return user.data;
+  const { data } = await provider.get<User>('/user');
+  return data;
 });
 
 export const login = createAsyncThunk(
@@ -27,15 +27,15 @@ export const logout = createAsyncThunk('user/logout', async () => {
 
 export const getReservations = createAsyncThunk(
   'user/getReservations',
-  async (userId: number) => {
-    const reservations = await provider.get<Reservation[]>(
-      '/reservation/getReservationsByUser',
+  async (date: string) => {
+    const { data } = await provider.get<Reservation[]>(
+      '/reservation/getMyReservationsByDate',
       {
         params: {
-          userId,
+          date,
         },
       }
     );
-    return reservations.data;
+    return data;
   }
 );

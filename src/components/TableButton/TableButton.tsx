@@ -3,13 +3,19 @@ import React, { useEffect, useState } from 'react';
 import cn from 'clsx';
 
 import { useDispatch, useSelector } from '@src/hooks';
-import { Table } from '@src/types';
+import { Reservation } from '@src/types';
 import { updateTimeSlots } from '@store/reservation';
 import { setSelectedTable, selectTable, selectTables } from '@store/table';
 
 import styles from '../TablesArea/TablesArea.module.scss';
 
-const TableButton: React.VFC<Table> = ({ id, reservations }) => {
+interface Props {
+  id: number;
+  reservations: Reservation[];
+  disabled?: boolean;
+}
+
+const TableButton: React.VFC<Props> = ({ id, reservations, disabled }) => {
   const selectedTable = useSelector(selectTable);
   const [active, setActive] = useState(false);
   const tables = useSelector(selectTables);
@@ -33,11 +39,16 @@ const TableButton: React.VFC<Table> = ({ id, reservations }) => {
 
   return (
     <button
-      className={cn(styles.table, active ? 'bg-primary text-white' : '')}
+      className={cn(styles.table, 'bg-white', {
+        'bg-primary text-white': active,
+        'hover:bg-gray-1': !active && !disabled,
+        'cursor-default': disabled,
+      })}
       value={id}
       onClick={handleClick}
+      disabled={disabled}
     >
-      <div>
+      <div className={'text-2xl'}>
         {id}
         <div
           className={cn(
