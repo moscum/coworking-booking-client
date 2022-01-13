@@ -39,3 +39,13 @@ export const getReservations = createAsyncThunk(
     return data;
   }
 );
+
+export const getRegularReservations = createAsyncThunk(
+  'user/getRegularReservations',
+  async () => {
+    const { data } = await provider.get<Reservation[]>(
+      '/reservation/getMyRegularReservations'
+    );
+    return data;
+  }
+);

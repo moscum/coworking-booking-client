@@ -9,19 +9,28 @@ import ReservationCard from '@components/ReservationCard';
 import User from '@components/User';
 import { useDispatch, useSelector } from '@src/hooks';
 import { selectDate } from '@store/reservation';
-import { getReservations, getUser, selectUserState } from '@store/user';
+import {
+  getRegularReservations,
+  getReservations,
+  getUser,
+  selectUserState,
+} from '@store/user';
 
 const History: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const date = useSelector(selectDate);
-  const { isLoggedIn, isLoading, user, reservations } =
+  const { isLoggedIn, isLoading, user, reservations, regularReservations } =
     useSelector(selectUserState);
 
   useEffect(() => {
     dispatch(getReservations(date!));
   }, [date]);
+
+  useEffect(() => {
+    dispatch(getRegularReservations());
+  }, []);
 
   useEffect(() => {
     if (!user) dispatch(getUser());
@@ -59,7 +68,22 @@ const History: NextPage = () => {
           )}
         </div>
         <div>
-          <p className={'text-primary text-xl'}>Регулярные бронирования</p>
+          <p className={'text-primary text-xl mb-2'}>Регулярные бронирования</p>
+          {regularReservations
+            ? regularReservations.map((r) => (
+                <ReservationCard
+                  key={r.id}
+                  className={'bg-blue-3'}
+                  tableId={r.tableId}
+                  reservation={r}
+                />
+              ))
+            : Array.from({ length: 3 }).map((_p, i) => (
+                <div
+                  key={i}
+                  className="w-full h-24 rounded-2xl py-4 px-6 mb-4 animate-shine"
+                />
+              ))}
         </div>
       </div>
     </div>

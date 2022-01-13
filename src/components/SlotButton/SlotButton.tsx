@@ -37,7 +37,7 @@ const SlotButton: React.VFC<Props> = ({ hour, date }) => {
       date &&
       selectedTable &&
       selectedTable.reservations.find((r) => {
-        return new Date(r.date).getUTCHours() === hour;
+        return new Date(r.date!).getUTCHours() === hour;
       })
     ) {
       setStatus('busy');
