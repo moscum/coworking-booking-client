@@ -1,18 +1,10 @@
 import React, { useState } from 'react';
 
-import { Calendar } from 'clcm';
 import cn from 'clsx';
 import { motion, Variants } from 'framer-motion';
 
-import { provider } from '@src/api';
-import { useDispatch, useSelector } from '@src/hooks';
-import { selectTableId, getTables } from '@src/store/table';
-import {
-  updateTimeSlots,
-  selectDate,
-  setDate,
-  selectReservation,
-} from '@store/reservation';
+import { useSelector } from '@src/hooks';
+import { selectTables } from '@src/store/table';
 
 const variants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.15 } },
@@ -20,42 +12,29 @@ const variants: Variants = {
 };
 
 const RegularReservation: React.VFC = () => {
-  const dispatch = useDispatch();
-  const reservation = useSelector(selectReservation);
-  const date = useSelector(selectDate);
-  const tableId = useSelector(selectTableId);
+  // const dispatch = useDispatch();
+  const days = {
+    Пн: 1,
+    Вт: 2,
+    Ср: 3,
+    Чт: 4,
+    Пт: 5,
+    Сб: 6,
+    Вс: 0,
+  };
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = useState(false);
-  const [weekStatus, setWeekStatus] = useState('free');
-  const [numberWeekday, setNumberWeekday] = useState([0]);
-  const handleClick = async () => {
-    if (weekStatus === 'selected') {
-      setWeekStatus('free');
+  const [status, setStatus] = useState('not active');
+  const tables = useSelector(selectTables);
+
+  const handleClick = () => {
+    if (status === 'active') {
+      setStatus('not active');
     } else {
-      setWeekStatus('selected');
+      setStatus('active');
     }
-    console.log(
-      ' tableId: ',
-      tableId,
-      '     numberOfDayInTheWeek:',
-      numberWeekday,
-      '   hours:',
-      reservation.hours
-    );
-    await provider
-      .put(
-        '/reservation/addRegularReservations',
-        JSON.stringify({
-          id: tableId,
-          days: numberWeekday,
-          hours: reservation.hours,
-        })
-      )
-      .finally(() => {
-        dispatch(getTables(date!));
-        dispatch(updateTimeSlots(null));
-      });
   };
+
   return (
     <div>
       <div className={'flex items-center'}>
@@ -66,7 +45,7 @@ const RegularReservation: React.VFC = () => {
             setDisplay(true);
           }}
         >
-          <span className="mr-1">Регулярное бронирование:</span>
+          <span className="mr-1">Регулярная бронировка:</span>
           <img
             src={'/images/arrow.svg'}
             alt={'arrow'}
@@ -76,37 +55,33 @@ const RegularReservation: React.VFC = () => {
           />
         </button>
       </div>
-      <div>
-        <button
-          className={cn(
-            'text-x1 font-manrope mb-1 p-1 leading-5 rounded',
-            visible ? 'visible' : 'hidden',
-            {
-              'bg-primary text-white': weekStatus === 'selected',
-              'bg-gray-1 hover:bg-blue-3': weekStatus === 'free',
-            }
-          )}
-          onClick={handleClick}
-        >
-          Забронировать
-        </button>
-      </div>
       <motion.div
         initial="hidden"
         animate={visible ? 'visible' : 'hidden'}
         variants={variants}
         onAnimationComplete={!visible ? () => setDisplay(false) : undefined}
       >
-        <Calendar
-          className={cn(
-            'absolute w-[360px] transition-all font-manrope z-10',
-            !display && 'hidden'
-          )}
-          onChange={(d) => {
-            dispatch(setDate(d.toLocaleDateString('sv')));
-            setNumberWeekday([d.getDay()]);
-          }}
-        />
+        <div className="grid grid-cols-7 gap-1">
+          {tables
+            ? Object.keys(days).map((key, value) => (
+                <button
+                  key={value}
+                  value={value}
+                  className={cn(
+                    'bg-gray-1 text-x1 font-manrope mb-1 p-1 leading-5 rounded',
+                    {
+                      'bg-primary text-white': status === 'active',
+                      'bg-gray-1 hover:bg-blue-3': status === 'not active',
+                    },
+                    !display && 'hidden'
+                  )}
+                  onClick={handleClick}
+                >
+                  {key}
+                </button>
+              ))
+            : ''}
+        </div>
       </motion.div>
     </div>
   );
