@@ -58,9 +58,10 @@ const ReservationCard: React.VFC<Props> = ({
       <div className={'ml-6 flex-1'}>
         <p className={'text-3xl'}>
           {reservation.date
-            ? new Date(reservation.date).getUTCHours()
-            : reservation.hour}
-          :00
+            ? `${new Date(reservation.date).getUTCHours()}:00 - ${
+                new Date(reservation.date).getUTCHours() + 1
+              }:00`
+            : `${reservation.hour}:00 - ${reservation.hour! + 1}:00`}
         </p>
         <p className={'text-xl'}>{date}</p>
       </div>

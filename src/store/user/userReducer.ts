@@ -58,6 +58,11 @@ export const userReducer = createReducer(initialState, (builder) =>
       state.reservations = null;
     })
     .addCase(actions.getReservations.fulfilled, (state, action) => {
+      action.payload.sort((a, b) => {
+        if (new Date(a.date!).getUTCHours() > new Date(b.date!).getUTCHours())
+          return 1;
+        return -1;
+      });
       state.reservations = action.payload;
     })
     .addCase(actions.getReservations.rejected, (state) => {
@@ -68,6 +73,10 @@ export const userReducer = createReducer(initialState, (builder) =>
       state.regularReservations = null;
     })
     .addCase(actions.getRegularReservations.fulfilled, (state, action) => {
+      action.payload.sort((a, b) => {
+        if (a.hour! > b.hour!) return 1;
+        return -1;
+      });
       state.regularReservations = action.payload;
     })
     .addCase(actions.getRegularReservations.rejected, (state) => {
