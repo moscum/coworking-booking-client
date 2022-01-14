@@ -6,7 +6,12 @@ import { motion, Variants } from 'framer-motion';
 
 import { useDispatch, useSelector } from '@src/hooks';
 import { getDateString } from '@src/utils';
-import { selectDate, setDate, updateTimeSlots } from '@store/reservation';
+import {
+  selectDate,
+  setDate,
+  setReservationDate,
+  updateTimeSlots,
+} from '@store/reservation';
 import { getTables } from '@store/table';
 
 const variants: Variants = {
@@ -60,6 +65,7 @@ const DatePicker: React.VFC = () => {
           )}
           onChange={(d) => {
             dispatch(setDate(d.toLocaleDateString('sv')));
+            dispatch(setReservationDate(d.toLocaleDateString('sv')));
           }}
         />
       </motion.div>

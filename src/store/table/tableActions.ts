@@ -15,6 +15,18 @@ export const getTables = createAsyncThunk(
   }
 );
 
+export const getOtherDayTables = createAsyncThunk(
+  'table/getOtherDayTables',
+  async ({ id, date }: { date: string; id: number }) => {
+    const { data } = await provider.get<Tables>('/tables/getReservations', {
+      params: {
+        date,
+      },
+    });
+    return { id, data, date };
+  }
+);
+
 export const setSelectedTable = createAsyncThunk(
   'table/setSelectedTable',
   async (table: Table | null) => {

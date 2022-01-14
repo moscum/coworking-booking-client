@@ -1,7 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const setDate = createAsyncThunk(
-  'reservation/selectDate',
+  'reservation/setDate',
+  async (date: string) => date
+);
+
+export const setReservationDate = createAsyncThunk(
+  'reservation/setReservationDate',
   async (date: string) => date
 );
 

@@ -26,7 +26,7 @@ const ReservationButton: React.VFC = () => {
         '/reservation/addReservations',
         JSON.stringify({
           id: tableId,
-          date: reservation.date,
+          date: reservation.reservationDate,
           hours: reservation.hours,
         })
       )

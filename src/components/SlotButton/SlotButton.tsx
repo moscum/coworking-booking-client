@@ -4,16 +4,23 @@ import { Button } from 'clcm';
 import cn from 'clsx';
 
 import { useDispatch, useSelector } from '@src/hooks';
-import { updateTimeSlots } from '@store/reservation';
+import { Reservation } from '@src/types';
+import {
+  selectReservation,
+  setReservationDate,
+  updateTimeSlots,
+} from '@store/reservation';
 import { selectTable } from '@store/table';
 
 interface Props {
   date: string;
   hour: number;
+  reservations: Reservation[];
 }
 
-const SlotButton: React.VFC<Props> = ({ hour, date }) => {
+const SlotButton: React.VFC<Props> = ({ hour, date, reservations }) => {
   const [status, setStatus] = useState('disabled');
+  const reservation = useSelector(selectReservation);
   const time = new Date(date);
   time.setHours(hour);
 
@@ -22,10 +29,10 @@ const SlotButton: React.VFC<Props> = ({ hour, date }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    if (status === 'selected') {
-      setStatus('free');
-    } else {
-      setStatus('selected');
+    if (reservation.reservationDate !== date) {
+      console.log('loh');
+      dispatch(updateTimeSlots(null));
+      dispatch(setReservationDate(date));
     }
     dispatch(updateTimeSlots(hour));
   };
@@ -34,15 +41,20 @@ const SlotButton: React.VFC<Props> = ({ hour, date }) => {
     if (new Date().getTime() > time.getTime() || !selectedTable)
       setStatus('disabled');
     else if (
+      reservation.reservationDate === date &&
+      reservation.hours.includes(hour)
+    )
+      setStatus('selected');
+    else if (
       date &&
-      selectedTable &&
-      selectedTable.reservations.find((r) => {
+      reservations &&
+      reservations.find((r) => {
         return new Date(r.date!).getUTCHours() === hour;
       })
     ) {
       setStatus('busy');
     } else setStatus('free');
-  }, [selectedTable, date, selectedTable?.reservations]);
+  }, [selectedTable, date, selectedTable?.reservations, reservation.hours]);
 
   return (
     <Button
