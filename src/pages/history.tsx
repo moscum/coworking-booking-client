@@ -64,7 +64,7 @@ const History: NextPage = () => {
                 />
               ))}
           {reservations?.length === 0 && (
-            <p className={'font-inter'}>У вас нет бронирований в этот день</p>
+            <p className={'font-inter'}>У вас нет бронирований на этот день</p>
           )}
         </div>
         <div>
@@ -84,6 +84,9 @@ const History: NextPage = () => {
                   className="w-full h-24 rounded-2xl py-4 px-6 mb-4 animate-shine"
                 />
               ))}
+          {regularReservations?.length === 0 && (
+            <p className={'font-inter'}>У вас нет регулярных бронирований</p>
+          )}
         </div>
       </div>
     </div>

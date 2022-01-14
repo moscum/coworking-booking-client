@@ -10,6 +10,7 @@ import {
   selectDate,
   setDate,
   setReservationDate,
+  updateDaySlots,
   updateTimeSlots,
 } from '@store/reservation';
 import { getTables } from '@store/table';
@@ -30,6 +31,7 @@ const DatePicker: React.VFC = () => {
   useEffect(() => {
     dispatch(getTables(date!));
     dispatch(updateTimeSlots(null));
+    dispatch(updateDaySlots(null));
   }, [date]);
 
   return (
@@ -60,7 +62,7 @@ const DatePicker: React.VFC = () => {
       >
         <Calendar
           className={cn(
-            'absolute w-[360px] transition-all font-manrope bg-[#fafafa]',
+            'absolute w-[360px] transition-all font-manrope bg-[#fafafa] shadow-lg',
             !display && 'hidden'
           )}
           onChange={(d) => {

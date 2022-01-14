@@ -8,9 +8,10 @@ import { useDispatch, useSelector } from '@src/hooks';
 import {
   selectDate,
   selectReservation,
+  updateDaySlots,
   updateTimeSlots,
 } from '@store/reservation';
-import { getTables, selectTableId } from '@store/table';
+import { getTables, selectTableId, setSelectedTable } from '@store/table';
 
 const ReservationButton: React.VFC = () => {
   const dispatch = useDispatch();
@@ -21,19 +22,38 @@ const ReservationButton: React.VFC = () => {
   const reservation = useSelector(selectReservation);
 
   const handleClick = async () => {
-    await provider
-      .put(
-        '/reservation/addReservations',
-        JSON.stringify({
-          id: tableId,
-          date: reservation.reservationDate,
-          hours: reservation.hours,
-        })
-      )
-      .finally(() => {
-        dispatch(getTables(date!));
-        dispatch(updateTimeSlots(null));
-      });
+    if (reservation.days.length === 0) {
+      await provider
+        .put(
+          '/reservation/addReservations',
+          JSON.stringify({
+            id: tableId,
+            date: reservation.reservationDate,
+            hours: reservation.hours,
+          })
+        )
+        .finally(() => {
+          dispatch(getTables(date!));
+          dispatch(setSelectedTable(null));
+          dispatch(updateTimeSlots(null));
+          dispatch(updateDaySlots(null));
+        });
+    } else {
+      await provider
+        .put(
+          '/reservation/addRegularReservations',
+          JSON.stringify({
+            id: tableId,
+            days: reservation.days,
+            hours: reservation.hours,
+          })
+        )
+        .finally(() => {
+          dispatch(getTables(date!));
+          dispatch(updateTimeSlots(null));
+          dispatch(updateDaySlots(null));
+        });
+    }
   };
 
   return (

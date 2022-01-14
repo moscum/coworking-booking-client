@@ -59,9 +59,9 @@ const User: React.VFC = () => {
           <Link href={'/'} passHref>
             <Button
               className={cn(
-                'border-solid font-manrope rounded px-6 py-0.5 mb-1 transition-all ',
+                'border-solid font-manrope rounded px-6 py-0.5 mb-1 transition-all shadow-md',
                 router.pathname === '/'
-                  ? 'bg-primary text-white'
+                  ? 'bg-primary text-white cursor-default'
                   : 'bg-white border-2 border-primary text-primary hover:bg-blue-3'
               )}
               disabled={router.pathname === '/'}
@@ -74,9 +74,9 @@ const User: React.VFC = () => {
             <Button
               onClick={() => dispatch(setSelectedTable(null))}
               className={cn(
-                'border-solid font-manrope rounded px-6 py-0.5 mb-1 transition-all ',
+                'border-solid font-manrope rounded px-6 py-0.5 mb-1 transition-all shadow-md',
                 router.pathname === '/history'
-                  ? 'bg-primary text-white'
+                  ? 'bg-primary text-white cursor-default'
                   : 'bg-white border-2 border-primary text-primary hover:bg-blue-3'
               )}
               disabled={router.pathname === '/history'}
@@ -89,7 +89,7 @@ const User: React.VFC = () => {
           </Link>
           <Button
             className={
-              'bg-white border-solid font-manrope border-2 border-primary text-primary rounded px-6 py-0.5 transition-all hover:bg-blue-3'
+              'bg-white border-solid font-manrope border-2 border-primary text-primary rounded px-6 py-0.5 transition-all hover:bg-blue-3 shadow-md'
             }
             onClick={() => dispatch(logout())}
           >

@@ -71,7 +71,7 @@ const ReservationCard: React.VFC<Props> = ({
           className={cn(
             'w-min block bg-white border-2 border-solid font-manrope  rounded px-3 py-1 mt-auto transition-all',
             isFinished
-              ? 'border-gray-2 text-gray-2'
+              ? 'border-gray-2 text-gray-2 cursor-default'
               : 'border-primary text-primary hover:bg-blue-3'
           )}
           disabled={isFinished}

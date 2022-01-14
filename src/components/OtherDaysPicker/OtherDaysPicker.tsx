@@ -5,7 +5,7 @@ import { motion, Variants } from 'framer-motion';
 import TimePicker from '@components/TimePicker';
 import { useDispatch, useSelector } from '@src/hooks';
 import { getDateString } from '@src/utils';
-import { selectDate } from '@store/reservation';
+import { selectDate, updateTimeSlots } from '@store/reservation';
 import {
   getOtherDayTables,
   selectOtherDayTables,
@@ -42,7 +42,7 @@ const OtherDaysPicker: React.VFC = () => {
     dispatch(
       getOtherDayTables({ id: 3, date: nextDate.toLocaleDateString('sv') })
     );
-  }, [tableId, date, tables]);
+  }, [tableId, date]);
 
   return (
     <div className={'relative'}>
@@ -52,6 +52,7 @@ const OtherDaysPicker: React.VFC = () => {
           onClick={() => {
             setVisible(!visible);
             setDisplay(true);
+            dispatch(updateTimeSlots(null));
           }}
         >
           <img
@@ -61,7 +62,7 @@ const OtherDaysPicker: React.VFC = () => {
               visible ? 'inline transition-all' : 'inline -rotate-90 transition'
             }
           />
-          <p className="ml-1">Другие дни</p>
+          <p className={'ml-1'}>Другие дни</p>
         </button>
       </div>
       <motion.div
@@ -75,7 +76,13 @@ const OtherDaysPicker: React.VFC = () => {
             const key = Number(i);
             return (
               <div key={i}>
-                <p className={'text-xl'}>
+                <p
+                  className={
+                    tables
+                      ? 'mb-1 text-xl inline-block'
+                      : 'mb-1 text-xl text-transparent h-7 w-64 inline-block rounded animate-shine'
+                  }
+                >
                   {getDateString(new Date(otherDayTables[key]!.date))}
                 </p>
                 <TimePicker

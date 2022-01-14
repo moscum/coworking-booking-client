@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import cn from 'clsx';
 import { motion, Variants } from 'framer-motion';
 
-import { useSelector } from '@src/hooks';
-import { selectTables } from '@src/store/table';
+import DaySlotButton from '@components/DaySlotButton';
+import { useDispatch } from '@src/hooks';
+import { updateDaySlots } from '@store/reservation';
 
 const variants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.15 } },
@@ -12,40 +13,22 @@ const variants: Variants = {
 };
 
 const RegularReservation: React.VFC = () => {
-  // const dispatch = useDispatch();
-  const days = {
-    Пн: 1,
-    Вт: 2,
-    Ср: 3,
-    Чт: 4,
-    Пт: 5,
-    Сб: 6,
-    Вс: 0,
-  };
+  const dispatch = useDispatch();
+
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = useState(false);
-  const [status, setStatus] = useState('not active');
-  const tables = useSelector(selectTables);
-
-  const handleClick = () => {
-    if (status === 'active') {
-      setStatus('not active');
-    } else {
-      setStatus('active');
-    }
-  };
 
   return (
     <div>
       <div className={'flex items-center'}>
         <button
-          className={'text-primary text-x1 font-manrope mb-1'}
+          className={'text-primary text-xl font-manrope mb-1 flex items-center'}
           onClick={() => {
             setVisible(!visible);
             setDisplay(true);
+            dispatch(updateDaySlots(null));
           }}
         >
-          <span className="mr-1">Регулярная бронировка:</span>
           <img
             src={'/images/arrow.svg'}
             alt={'arrow'}
@@ -53,6 +36,7 @@ const RegularReservation: React.VFC = () => {
               visible ? 'inline transition-all' : 'inline -rotate-90 transition'
             }
           />
+          <span className={'ml-1'}>Регулярное бронирование</span>
         </button>
       </div>
       <motion.div
@@ -61,26 +45,10 @@ const RegularReservation: React.VFC = () => {
         variants={variants}
         onAnimationComplete={!visible ? () => setDisplay(false) : undefined}
       >
-        <div className="grid grid-cols-7 gap-1">
-          {tables
-            ? Object.keys(days).map((key, value) => (
-                <button
-                  key={value}
-                  value={value}
-                  className={cn(
-                    'bg-gray-1 text-x1 font-manrope mb-1 p-1 leading-5 rounded',
-                    {
-                      'bg-primary text-white': status === 'active',
-                      'bg-gray-1 hover:bg-blue-3': status === 'not active',
-                    },
-                    !display && 'hidden'
-                  )}
-                  onClick={handleClick}
-                >
-                  {key}
-                </button>
-              ))
-            : ''}
+        <div className={cn('grid grid-cols-7 gap-1', display ? '' : 'hidden')}>
+          {[1, 2, 3, 4, 5, 6, 0].map((i) => (
+            <DaySlotButton key={i} day={i} />
+          ))}
         </div>
       </motion.div>
     </div>
