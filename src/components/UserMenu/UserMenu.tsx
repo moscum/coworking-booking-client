@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { Button } from 'clcm';
 import cn from 'clsx';
@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useDispatch, useSelector } from '@src/hooks';
+import useOutsideClick from '@src/utils/useOutsideClick';
 import { setSelectedTable } from '@store/table';
 import { logout, selectUserState } from '@store/user';
 
@@ -15,40 +16,49 @@ const variants: Variants = {
   visible: { opacity: 1 },
 };
 
-const User: React.VFC = () => {
+const UserMenu: React.VFC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = React.useState(false);
 
+  const buttonRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  useOutsideClick([menuRef, buttonRef], () => {
+    setVisible(false);
+  });
+
   const userState = useSelector(selectUserState);
 
   return (
     <div className={'relative'}>
-      <button
-        className={'flex items-center mb-auto'}
-        onClick={() => {
-          setVisible(!visible);
-          setDisplay(true);
-        }}
-      >
-        <span
-          className={'font-manrope text-lg text-primary font-semibold mr-1'}
+      <div ref={buttonRef}>
+        <button
+          className={'flex items-center mb-auto'}
+          onClick={() => {
+            setVisible(!visible);
+            setDisplay(true);
+          }}
         >
-          {userState.user?.firstName} {userState.user?.lastName}
-        </span>
-        <img
-          src={'/images/arrow.svg'}
-          alt={'arrow'}
-          className={visible ? 'transition-all' : '-rotate-90 transition'}
-        />
-      </button>
+          <span
+            className={'font-manrope text-lg text-primary font-semibold mr-1'}
+          >
+            {userState.user?.firstName} {userState.user?.lastName}
+          </span>
+          <img
+            src={'/images/arrow.svg'}
+            alt={'arrow'}
+            className={visible ? 'transition-all' : '-rotate-90 transition'}
+          />
+        </button>
+      </div>
       <motion.div
         initial="hidden"
         animate={visible ? 'visible' : 'hidden'}
         variants={variants}
         onAnimationComplete={!visible ? () => setDisplay(false) : undefined}
+        ref={menuRef}
       >
         <div
           className={cn(
@@ -101,4 +111,4 @@ const User: React.VFC = () => {
   );
 };
 
-export default User;
+export default UserMenu;
