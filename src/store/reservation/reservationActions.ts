@@ -12,7 +12,7 @@ export const setReservationDate = createAsyncThunk(
 
 export const updateTimeSlots = createAsyncThunk(
   'reservation/updateTimeSlots',
-  async (time: number | null) => time
+  async ({ time }: { time: number | number[] | null }) => time
 );
 
 export const updateDaySlots = createAsyncThunk(

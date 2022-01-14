@@ -52,7 +52,7 @@ const OtherDaysPicker: React.VFC = () => {
           onClick={() => {
             setVisible(!visible);
             setDisplay(true);
-            dispatch(updateTimeSlots(null));
+            dispatch(updateTimeSlots({ time: null }));
           }}
         >
           <img

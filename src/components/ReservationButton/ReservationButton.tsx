@@ -41,7 +41,7 @@ const ReservationButton: React.VFC = () => {
         .finally(() => {
           dispatch(getTables(date!));
           dispatch(setSelectedTable(null));
-          dispatch(updateTimeSlots(null));
+          dispatch(updateTimeSlots({ time: null }));
           dispatch(updateDaySlots(null));
         })
         .catch(() => {
@@ -66,7 +66,7 @@ const ReservationButton: React.VFC = () => {
         })
         .finally(() => {
           dispatch(getTables(date!));
-          dispatch(updateTimeSlots(null));
+          dispatch(updateTimeSlots({ time: null }));
           dispatch(updateDaySlots(null));
         })
         .catch(() => {
