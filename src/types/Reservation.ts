@@ -4,5 +4,7 @@ export interface Reservation {
   id: number;
   user: User;
   tableId: number;
-  date: string;
+  date?: string;
+  hour?: number;
+  days?: [number];
 }

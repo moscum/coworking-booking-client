@@ -6,14 +6,16 @@ import * as actions from './userActions';
 
 export type UserState = {
   user: User | null;
-  reservations: Reservation[];
+  reservations: Reservation[] | null;
+  regularReservations: Reservation[] | null;
   isLoggedIn: boolean;
   isLoading: boolean;
 };
 
 export const initialState: UserState = {
   user: null,
-  reservations: [],
+  reservations: null,
+  regularReservations: null,
   isLoggedIn: false,
   isLoading: true,
 };
@@ -53,12 +55,22 @@ export const userReducer = createReducer(initialState, (builder) =>
     })
 
     .addCase(actions.getReservations.pending, (state) => {
-      state.reservations = [];
+      state.reservations = null;
     })
     .addCase(actions.getReservations.fulfilled, (state, action) => {
       state.reservations = action.payload;
     })
     .addCase(actions.getReservations.rejected, (state) => {
       state.reservations = [];
+    })
+
+    .addCase(actions.getRegularReservations.pending, (state) => {
+      state.regularReservations = null;
+    })
+    .addCase(actions.getRegularReservations.fulfilled, (state, action) => {
+      state.regularReservations = action.payload;
+    })
+    .addCase(actions.getRegularReservations.rejected, (state) => {
+      state.regularReservations = [];
     })
 );

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
+import { Button } from 'clcm';
 import cn from 'clsx';
 import { motion, Variants } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useDispatch, useSelector } from '@src/hooks';
+import { setSelectedTable } from '@store/table';
 import { logout, selectUserState } from '@store/user';
 
 const variants: Variants = {
@@ -54,44 +56,45 @@ const User: React.VFC = () => {
             !display && 'hidden'
           )}
         >
-          <button
-            className={cn(
-              ' rounded px-6 py-0.5 mb-1 transition-all ',
-              router.pathname === '/'
-                ? 'bg-primary text-white'
-                : 'border-2 border-primary text-primary hover:bg-blue-3'
-            )}
-            disabled={router.pathname === '/'}
-          >
-            {router.pathname === '/' ? (
-              <span>Бронирование</span>
-            ) : (
-              <Link href={'/'}>Бронирование</Link>
-            )}
-          </button>
-          <button
-            className={cn(
-              ' rounded px-6 py-0.5 mb-1 transition-all ',
-              router.pathname === '/reservations'
-                ? 'bg-primary text-white'
-                : 'border-2 border-primary text-primary hover:bg-blue-3'
-            )}
-            disabled={router.pathname === '/reservations'}
-          >
-            {router.pathname === '/reservations' ? (
-              <span>История</span>
-            ) : (
-              <Link href={'/reservations'}>История</Link>
-            )}
-          </button>
-          <button
+          <Link href={'/'} passHref>
+            <Button
+              className={cn(
+                'border-solid font-manrope rounded px-6 py-0.5 mb-1 transition-all shadow-md',
+                router.pathname === '/'
+                  ? 'bg-primary text-white cursor-default'
+                  : 'bg-white border-2 border-primary text-primary hover:bg-blue-3'
+              )}
+              disabled={router.pathname === '/'}
+              whileTap={router.pathname === '/' ? undefined : { scale: 0.95 }}
+            >
+              Бронирование
+            </Button>
+          </Link>
+          <Link href={'/history'} passHref>
+            <Button
+              onClick={() => dispatch(setSelectedTable(null))}
+              className={cn(
+                'border-solid font-manrope rounded px-6 py-0.5 mb-1 transition-all shadow-md',
+                router.pathname === '/history'
+                  ? 'bg-primary text-white cursor-default'
+                  : 'bg-white border-2 border-primary text-primary hover:bg-blue-3'
+              )}
+              disabled={router.pathname === '/history'}
+              whileTap={
+                router.pathname === '/history' ? undefined : { scale: 0.95 }
+              }
+            >
+              История
+            </Button>
+          </Link>
+          <Button
             className={
-              'border-2 border-primary text-primary rounded px-6 py-0.5 transition-all hover:bg-blue-3'
+              'bg-white border-solid font-manrope border-2 border-primary text-primary rounded px-6 py-0.5 transition-all hover:bg-blue-3 shadow-md'
             }
             onClick={() => dispatch(logout())}
           >
             Выйти
-          </button>
+          </Button>
         </div>
       </motion.div>
     </div>

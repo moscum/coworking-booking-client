@@ -6,5 +6,12 @@ export interface Table {
 }
 
 export interface Tables {
-  [id: number]: Reservation[] | [];
+  [id: number]: Reservation[];
+}
+
+export interface OtherDaysTables {
+  [id: number]: {
+    date: string;
+    tables: Tables;
+  };
 }

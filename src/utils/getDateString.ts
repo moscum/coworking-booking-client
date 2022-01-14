@@ -6,7 +6,7 @@ export const getDateString = (date: Date) => {
     year: 'numeric',
   });
   return (
-    dateString.substring(0, 2).toLocaleUpperCase() +
+    dateString.substring(0, 2).toUpperCase() +
     dateString.substring(2, dateString.length - 3)
   );
 };

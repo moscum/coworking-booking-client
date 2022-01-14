@@ -6,7 +6,13 @@ import { motion, Variants } from 'framer-motion';
 
 import { useDispatch, useSelector } from '@src/hooks';
 import { getDateString } from '@src/utils';
-import { selectDate, setDate, updateTimeSlots } from '@store/reservation';
+import {
+  selectDate,
+  setDate,
+  setReservationDate,
+  updateDaySlots,
+  updateTimeSlots,
+} from '@store/reservation';
 import { getTables } from '@store/table';
 
 const variants: Variants = {
@@ -20,18 +26,19 @@ const DatePicker: React.VFC = () => {
   const date = useSelector(selectDate);
 
   const [visible, setVisible] = useState(false);
-  const [display, setDisplay] = React.useState(false);
+  const [display, setDisplay] = useState(false);
 
   useEffect(() => {
     dispatch(getTables(date!));
     dispatch(updateTimeSlots(null));
+    dispatch(updateDaySlots(null));
   }, [date]);
 
   return (
     <div className={'relative'}>
-      <div className={'flex items-center'}>
+      <div className={'flex items-center mb-2'}>
         <button
-          className={'text-primary text-xl font-manrope mb-1 flex items-center'}
+          className={'text-primary text-xl font-manrope flex items-center'}
           onClick={() => {
             setVisible(!visible);
             setDisplay(true);
@@ -47,6 +54,7 @@ const DatePicker: React.VFC = () => {
         </button>
       </div>
       <motion.div
+        className={'relative z-10'}
         initial="hidden"
         animate={visible ? 'visible' : 'hidden'}
         variants={variants}
@@ -54,11 +62,12 @@ const DatePicker: React.VFC = () => {
       >
         <Calendar
           className={cn(
-            'absolute w-[360px] transition-all font-manrope',
+            'absolute w-[360px] transition-all font-manrope bg-[#fafafa] shadow-lg',
             !display && 'hidden'
           )}
           onChange={(d) => {
             dispatch(setDate(d.toLocaleDateString('sv')));
+            dispatch(setReservationDate(d.toLocaleDateString('sv')));
           }}
         />
       </motion.div>
