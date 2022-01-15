@@ -14,7 +14,12 @@ const TablesArea: React.VFC = () => {
   return (
     <>
       {tables ? (
-        <div className={styles.tableArea}>
+        <div
+          className={cn(
+            styles.tableArea,
+            'absolute inset-0 grid grid-flow-col items-center justify-items-center w-[480px] h-[480px] m-auto rounded-[16px] bg-blue-3'
+          )}
+        >
           {Object.keys(tables).map((id) => {
             const tableId = Number(id);
             return (
@@ -29,6 +34,11 @@ const TablesArea: React.VFC = () => {
       ) : (
         <div className={cn(styles.tableArea, 'animate-shine')} />
       )}
+      <img
+        className="absolute w-[96px] h-[42px] bottom-[24px] right-24px"
+        src={'images/host_logo_rgb_blue.png'}
+        alt={'company logo'}
+      />
     </>
   );
 };

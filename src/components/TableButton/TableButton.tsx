@@ -40,11 +40,15 @@ const TableButton: React.VFC<Props> = ({ id, reservations, disabled }) => {
 
   return (
     <button
-      className={cn(styles.table, {
-        'bg-primary text-white': active,
-        'bg-white hover:bg-gray-1': !active && !disabled,
-        'bg-white cursor-default': disabled,
-      })}
+      className={cn(
+        styles.table,
+        'font-bold text-black cursor-pointer rounded-[0.175rem] transition-[0.15s]',
+        {
+          'bg-primary text-white': active,
+          'bg-white hover:bg-gray-1': !active && !disabled,
+          'bg-white cursor-default': disabled,
+        }
+      )}
       value={id}
       onClick={handleClick}
       disabled={disabled}
@@ -54,6 +58,7 @@ const TableButton: React.VFC<Props> = ({ id, reservations, disabled }) => {
         <div
           className={cn(
             styles.tableStatusIndicator,
+            'absolute  bottom-[-1rem] w-7 h-7 border-solid border-4 border-white rounded-[50%]',
             reservations.length === 0 && 'bg-success',
             reservations.length === 14 && 'bg-accent',
             reservations.length > 0 && reservations.length < 14 && 'bg-primary'

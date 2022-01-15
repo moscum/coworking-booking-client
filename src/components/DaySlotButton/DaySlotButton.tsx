@@ -4,7 +4,7 @@ import { Button } from 'clcm';
 import cn from 'clsx';
 
 import { useDispatch, useSelector } from '@src/hooks';
-import { selectReservation, updateDaySlots } from '@store/reservation';
+import { selectReservationState, updateDaySlots } from '@store/reservation';
 import { selectTable } from '@store/table';
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 const DaySlotButton: React.VFC<Props> = ({ day }) => {
   const dispatch = useDispatch();
 
-  const reservation = useSelector(selectReservation);
+  const reservationState = useSelector(selectReservationState);
   const selectedTable = useSelector(selectTable);
 
   const [status, setStatus] = useState('disabled');
@@ -26,10 +26,10 @@ const DaySlotButton: React.VFC<Props> = ({ day }) => {
   };
 
   useEffect(() => {
-    if (reservation.days.includes(day)) setStatus('selected');
+    if (reservationState.days.includes(day)) setStatus('selected');
     else if (!selectedTable) setStatus('disabled');
     else setStatus('free');
-  }, [selectedTable, reservation.days]);
+  }, [selectedTable, reservationState.days]);
 
   return (
     <Button
