@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import AppLoadingSpinner from '@components/AppLoadingSpinner';
 import SideBar from '@components/SideBar';
 import TablesArea from '@components/TablesArea';
-import User from '@components/User';
+import UserMenu from '@components/UserMenu';
 import { useDispatch, useSelector } from '@src/hooks';
 import { getUser, selectUserState } from '@store/user';
 
@@ -23,7 +23,7 @@ const Index: NextPage = () => {
     <div className={'h-screen flex'}>
       <SideBar />
       <div className={'flex justify-end align-top flex-2 relative px-8 py-6'}>
-        <User />
+        <UserMenu />
         <TablesArea />
       </div>
     </div>

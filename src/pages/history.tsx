@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import AppLoadingSpinner from '@components/AppLoadingSpinner';
 import DatePicker from '@components/DatePicker';
 import ReservationCard from '@components/ReservationCard';
-import User from '@components/User';
+import UserMenu from '@components/UserMenu';
 import { useDispatch, useSelector } from '@src/hooks';
 import { selectDate } from '@store/reservation';
 import {
@@ -43,7 +43,7 @@ const History: NextPage = () => {
     <div className={'h-screen px-8 py-6'}>
       <div className={'flex justify-between items-start w-full'}>
         <h1 className={'text-4xl'}>История бронирований</h1>
-        <User />
+        <UserMenu />
       </div>
       <div className={'grid grid-cols-2 gap-8 w-full'}>
         <div>

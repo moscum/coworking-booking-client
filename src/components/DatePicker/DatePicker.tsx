@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Calendar } from 'clcm';
 import cn from 'clsx';
@@ -6,6 +6,7 @@ import { motion, Variants } from 'framer-motion';
 
 import { useDispatch, useSelector } from '@src/hooks';
 import { getDateString } from '@src/utils';
+import useOutsideClick from '@src/utils/useOutsideClick';
 import {
   selectDate,
   setDate,
@@ -20,13 +21,18 @@ const variants: Variants = {
   visible: { opacity: 1 },
 };
 
-// TODO: make outside click check
 const DatePicker: React.VFC = () => {
   const dispatch = useDispatch();
   const date = useSelector(selectDate);
 
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = useState(false);
+
+  const buttonRef = useRef<HTMLDivElement>(null);
+  const calendarRef = useRef<HTMLDivElement>(null);
+  useOutsideClick([calendarRef, buttonRef], () => {
+    setVisible(false);
+  });
 
   useEffect(() => {
     dispatch(getTables(date!));
@@ -36,7 +42,7 @@ const DatePicker: React.VFC = () => {
 
   return (
     <div className={'relative'}>
-      <div className={'flex items-center mb-2'}>
+      <div className={'mb-2 inline-block'} ref={buttonRef}>
         <button
           className={'text-primary text-xl font-manrope flex items-center'}
           onClick={() => {
@@ -59,6 +65,7 @@ const DatePicker: React.VFC = () => {
         animate={visible ? 'visible' : 'hidden'}
         variants={variants}
         onAnimationComplete={!visible ? () => setDisplay(false) : undefined}
+        ref={calendarRef}
       >
         <Calendar
           className={cn(
