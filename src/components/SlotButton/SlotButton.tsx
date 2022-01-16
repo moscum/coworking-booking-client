@@ -50,7 +50,10 @@ const SlotButton: React.VFC<Props> = ({ hour, date, reservations }) => {
     else if (date && reservation) {
       setStatus('busy');
       setUser(reservation.user);
-    } else setStatus('free');
+    } else {
+      setStatus('free');
+      setUser(null);
+    }
   }, [selectedTable, date, reservations, reservationState.hours]);
 
   return (

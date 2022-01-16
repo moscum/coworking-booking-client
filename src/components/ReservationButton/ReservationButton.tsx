@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button } from 'clcm';
+import { Button, useNotifications } from 'clcm';
 import cn from 'clsx';
 
 import { provider } from '@src/api';
@@ -19,7 +19,7 @@ const ReservationButton: React.VFC = () => {
   const tableId = useSelector(selectTableId);
   const reservationState = useSelector(selectReservationState);
 
-  // const { sendNotification } = useNotifications();
+  const { sendNotification } = useNotifications();
 
   const handleClick = async () => {
     if (reservationState.days.length === 0) {
@@ -33,9 +33,9 @@ const ReservationButton: React.VFC = () => {
           })
         )
         .then(() => {
-          // sendNotification(<span>Бронирование создано</span>, 'success', 2.5, {
-          //   onClose: undefined,
-          // });
+          sendNotification(<span>Бронирование создано</span>, 'success', 2.5, {
+            onClose: undefined,
+          });
         })
         .finally(() => {
           if (date) {
@@ -46,9 +46,9 @@ const ReservationButton: React.VFC = () => {
           }
         })
         .catch(() => {
-          // sendNotification(<span>Ошибка</span>, 'danger', 2.5, {
-          //   onClose: undefined,
-          // });
+          sendNotification(<span>Ошибка</span>, 'danger', 2.5, {
+            onClose: undefined,
+          });
         });
     } else {
       await provider
@@ -61,9 +61,9 @@ const ReservationButton: React.VFC = () => {
           })
         )
         .then(() => {
-          // sendNotification(<span>Бронирование создано</span>, 'success', 2.5, {
-          //   onClose: undefined,
-          // });
+          sendNotification(<span>Бронирование создано</span>, 'success', 2.5, {
+            onClose: undefined,
+          });
         })
         .finally(() => {
           if (date) {
@@ -73,9 +73,9 @@ const ReservationButton: React.VFC = () => {
           }
         })
         .catch(() => {
-          // sendNotification(<span>Ошибка</span>, 'danger', 2.5, {
-          //   onClose: undefined,
-          // });
+          sendNotification(<span>Ошибка</span>, 'danger', 2.5, {
+            onClose: undefined,
+          });
         });
     }
   };
