@@ -74,8 +74,7 @@ const OtherDaysPicker: React.VFC = () => {
         onAnimationComplete={!visible ? () => setDisplay(false) : undefined}
       >
         <div className={display ? '' : 'hidden'}>
-          {Object.keys(otherDayTables).map((i) => {
-            const key = Number(i);
+          {Object.values(otherDayTables).map((r, i) => {
             return (
               <div key={i}>
                 <p
@@ -85,11 +84,11 @@ const OtherDaysPicker: React.VFC = () => {
                       : 'mb-1 text-xl text-transparent h-7 w-64 inline-block rounded animate-shine'
                   }
                 >
-                  {getDateString(new Date(otherDayTables[key]!.date))}
+                  {getDateString(new Date(r.date))}
                 </p>
                 <TimePicker
-                  date={otherDayTables[key]!.date}
-                  reservations={otherDayTables[key]!.tables[tableId!]!}
+                  date={r.date}
+                  reservations={tableId ? r.tables[tableId] ?? [] : []}
                 />
               </div>
             );

@@ -22,7 +22,7 @@ const SideBar: React.VFC = () => {
       <TimePicker
         date={date!}
         reservations={
-          selectedTable?.reservations ? selectedTable?.reservations : []
+          selectedTable?.reservations ? selectedTable.reservations : []
         }
       />
       <OtherDaysPicker />

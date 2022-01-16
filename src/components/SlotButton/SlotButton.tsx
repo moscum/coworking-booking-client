@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button } from 'clcm';
+import { Button, Tooltip } from 'clcm';
 import cn from 'clsx';
 
 import { useDispatch, useSelector } from '@src/hooks';
-import { Reservation } from '@src/types';
+import { Reservation, User } from '@src/types';
 import {
-  selectReservation,
+  selectReservationState,
   setReservationDate,
   updateTimeSlots,
 } from '@store/reservation';
@@ -20,16 +20,16 @@ interface Props {
 
 const SlotButton: React.VFC<Props> = ({ hour, date, reservations }) => {
   const [status, setStatus] = useState('disabled');
-  const reservation = useSelector(selectReservation);
+  const [user, setUser] = useState<User | null>(null);
+  const reservationState = useSelector(selectReservationState);
+  const selectedTable = useSelector(selectTable);
   const time = new Date(date);
   time.setHours(hour);
-
-  const selectedTable = useSelector(selectTable);
 
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    if (reservation.reservationDate !== date) {
+    if (reservationState.reservationDate !== date) {
       dispatch(updateTimeSlots({ time: null }));
       dispatch(setReservationDate(date));
     }
@@ -37,40 +37,51 @@ const SlotButton: React.VFC<Props> = ({ hour, date, reservations }) => {
   };
 
   useEffect(() => {
+    const reservation = reservations.find((r) => {
+      return new Date(r.date!).getUTCHours() === hour;
+    });
     if (new Date().getTime() > time.getTime() || !selectedTable)
       setStatus('disabled');
     else if (
-      reservation.reservationDate === date &&
-      reservation.hours.includes(hour)
+      reservationState.reservationDate === date &&
+      reservationState.hours.includes(hour)
     )
       setStatus('selected');
-    else if (
-      date &&
-      reservations &&
-      reservations.find((r) => {
-        return new Date(r.date!).getUTCHours() === hour;
-      })
-    ) {
+    else if (date && reservation) {
       setStatus('busy');
+      setUser(reservation.user);
     } else setStatus('free');
-  }, [selectedTable, date, selectedTable?.reservations, reservation.hours]);
+  }, [selectedTable, date, reservations, reservationState.hours]);
 
   return (
-    <Button
-      className={cn('font-manrope text-lg p-0 rounded text-xl transition-all', {
-        'bg-primary text-white': status === 'selected',
-        'bg-gray-1 hover:bg-blue-3 text-black': status === 'free',
-        'bg-gray-1 text-gray-2 cursor-default': status === 'disabled',
-        'bg-accent text-white cursor-not-allowed': status === 'busy',
-      })}
-      disabled={status !== 'free' && status !== 'selected'}
-      whileTap={
-        status !== 'free' && status !== 'selected' ? undefined : { scale: 0.95 }
-      }
-      onClick={handleClick}
+    <Tooltip
+      className="bg-black/50 backdrop-blur-lg rounded text-white whitespace-nowrap bottom-9 select-none"
+      position="top"
+      disabled={!user}
+      content={`${user?.firstName} ${user?.lastName}`}
     >
-      {`${hour < 10 ? '0' : ''}${hour}:00`}
-    </Button>
+      <Button
+        className={cn(
+          'font-manrope text-lg w-full p-0 rounded text-xl transition-all',
+          {
+            'bg-primary text-white': status === 'selected',
+            'bg-gray-1 hover:bg-blue-3 text-black': status === 'free',
+            'bg-gray-1 text-gray-2 cursor-default': status === 'disabled',
+            'bg-accent text-white cursor-default': status === 'busy',
+          }
+        )}
+        whileTap={
+          status !== 'free' && status !== 'selected'
+            ? undefined
+            : { scale: 0.95 }
+        }
+        onClick={
+          status === 'free' || status === 'selected' ? handleClick : undefined
+        }
+      >
+        {`${hour < 10 ? '0' : ''}${hour}:00`}
+      </Button>
+    </Tooltip>
   );
 };
 

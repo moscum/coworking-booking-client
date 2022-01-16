@@ -20,7 +20,7 @@ const Index: NextPage = () => {
   }, [isLoggedIn, user, isLoading]);
   if (isLoading || !isLoggedIn) return <AppLoadingSpinner />;
   return (
-    <div className={'h-screen flex'}>
+    <div className={'h-screen flex select-none'}>
       <SideBar />
       <div className={'flex justify-end align-top flex-2 relative px-8 py-6'}>
         <UserMenu />
