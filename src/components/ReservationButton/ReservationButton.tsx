@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, useNotifications } from 'clcm';
+import { Button } from 'clcm';
 import cn from 'clsx';
 
 import { provider } from '@src/api';
@@ -15,12 +15,11 @@ import { getTables, selectTableId, setSelectedTable } from '@store/table';
 
 const ReservationButton: React.VFC = () => {
   const dispatch = useDispatch();
-  const { sendNotification } = useNotifications();
-
   const date = useSelector(selectDate);
-
   const tableId = useSelector(selectTableId);
   const reservation = useSelector(selectReservation);
+
+  // const { sendNotification } = useNotifications();
 
   const handleClick = async () => {
     if (reservation.days.length === 0) {
@@ -34,20 +33,22 @@ const ReservationButton: React.VFC = () => {
           })
         )
         .then(() => {
-          sendNotification(<span>Бронирование создано</span>, 'success', 2.5, {
-            onClose: undefined,
-          });
+          // sendNotification(<span>Бронирование создано</span>, 'success', 2.5, {
+          //   onClose: undefined,
+          // });
         })
         .finally(() => {
-          dispatch(getTables(date!));
-          dispatch(setSelectedTable(null));
-          dispatch(updateTimeSlots(null));
-          dispatch(updateDaySlots(null));
+          if (date) {
+            dispatch(getTables(date));
+            dispatch(setSelectedTable(null));
+            dispatch(updateTimeSlots({ time: null }));
+            dispatch(updateDaySlots(null));
+          }
         })
         .catch(() => {
-          sendNotification(<span>Ошибка</span>, 'danger', 2.5, {
-            onClose: undefined,
-          });
+          // sendNotification(<span>Ошибка</span>, 'danger', 2.5, {
+          //   onClose: undefined,
+          // });
         });
     } else {
       await provider
@@ -60,19 +61,21 @@ const ReservationButton: React.VFC = () => {
           })
         )
         .then(() => {
-          sendNotification(<span>Бронирование создано</span>, 'success', 2.5, {
-            onClose: undefined,
-          });
+          // sendNotification(<span>Бронирование создано</span>, 'success', 2.5, {
+          //   onClose: undefined,
+          // });
         })
         .finally(() => {
-          dispatch(getTables(date!));
-          dispatch(updateTimeSlots(null));
-          dispatch(updateDaySlots(null));
+          if (date) {
+            dispatch(getTables(date));
+            dispatch(updateTimeSlots({ time: null }));
+            dispatch(updateDaySlots(null));
+          }
         })
         .catch(() => {
-          sendNotification(<span>Ошибка</span>, 'danger', 2.5, {
-            onClose: undefined,
-          });
+          // sendNotification(<span>Ошибка</span>, 'danger', 2.5, {
+          //   onClose: undefined,
+          // });
         });
     }
   };

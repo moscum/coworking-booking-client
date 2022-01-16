@@ -30,10 +30,10 @@ const SlotButton: React.VFC<Props> = ({ hour, date, reservations }) => {
 
   const handleClick = () => {
     if (reservation.reservationDate !== date) {
-      dispatch(updateTimeSlots(null));
+      dispatch(updateTimeSlots({ time: null }));
       dispatch(setReservationDate(date));
     }
-    dispatch(updateTimeSlots(hour));
+    dispatch(updateTimeSlots({ time: hour }));
   };
 
   useEffect(() => {
