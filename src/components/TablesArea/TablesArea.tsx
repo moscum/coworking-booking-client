@@ -17,7 +17,7 @@ const TablesArea: React.VFC = () => {
         <div
           className={cn(
             styles.tableArea,
-            'absolute inset-0 grid grid-flow-col items-center justify-items-center w-[480px] h-[480px] m-auto rounded-[16px] bg-blue-3'
+            'absolute inset-0 grid grid-flow-col items-center justify-items-center w-[480px] h-[480px] m-auto rounded-2xl bg-blue-3'
           )}
         >
           {Object.keys(tables).map((id) => {
@@ -32,12 +32,16 @@ const TablesArea: React.VFC = () => {
           })}
         </div>
       ) : (
-        <div className={cn(styles.tableArea, 'animate-shine')} />
+        <div
+          className={
+            'absolute inset-0 m-auto animate-shine w-[480px] h-[480px] rounded-2xl'
+          }
+        />
       )}
       <img
-        className="absolute w-[96px] h-[42px] bottom-[24px] right-24px"
-        src={'images/host_logo_rgb_blue.png'}
-        alt={'company logo'}
+        className="absolute bottom-6 right-8"
+        src={'images/logo.svg'}
+        alt={'logo'}
       />
     </>
   );

@@ -40,7 +40,7 @@ const History: NextPage = () => {
   if (isLoading || !isLoggedIn) return <AppLoadingSpinner />;
 
   return (
-    <div className={'h-screen px-8 py-6'}>
+    <div className={'h-screen px-8 py-6 select-none'}>
       <div className={'flex justify-between items-start w-full'}>
         <h1 className={'text-4xl'}>История бронирований</h1>
         <UserMenu />

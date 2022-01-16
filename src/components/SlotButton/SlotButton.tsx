@@ -20,25 +20,11 @@ interface Props {
 
 const SlotButton: React.VFC<Props> = ({ hour, date, reservations }) => {
   const [status, setStatus] = useState('disabled');
-  const [currentSlot, setCurrentSlot] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const reservationState = useSelector(selectReservationState);
   const selectedTable = useSelector(selectTable);
   const time = new Date(date);
   time.setHours(hour);
-  // let index;
-
-  // if (reservations) {
-  //   index = reservations.find((r) => {
-  //     return new Date(r.date!).getUTCHours() === hour;
-  //   });
-  //   console.log(
-  //     index?.user.firstName,
-  //     index?.user.lastName,
-  //     index?.date,
-  //     index?.hour,
-  //     index?.tableId
-  //   );
-  // }
 
   const dispatch = useDispatch();
 
@@ -51,12 +37,9 @@ const SlotButton: React.VFC<Props> = ({ hour, date, reservations }) => {
   };
 
   useEffect(() => {
-    let abc: User | null;
-    if (reservations) {
-      abc = reservations.find((r) => {
-        return new Date(r.date!).getUTCHours() === hour;
-      })?.user!;
-    }
+    const reservation = reservations.find((r) => {
+      return new Date(r.date!).getUTCHours() === hour;
+    });
     if (new Date().getTime() > time.getTime() || !selectedTable)
       setStatus('disabled');
     else if (
@@ -64,53 +47,41 @@ const SlotButton: React.VFC<Props> = ({ hour, date, reservations }) => {
       reservationState.hours.includes(hour)
     )
       setStatus('selected');
-    else if (
-      date &&
-      reservations &&
-      reservations.find((r) => {
-        return new Date(r.date!).getUTCHours() === hour;
-      })
-    ) {
+    else if (date && reservation) {
       setStatus('busy');
-      setCurrentSlot(abc!);
+      setUser(reservation.user);
     } else setStatus('free');
-  }, [
-    selectedTable,
-    date,
-    selectedTable?.reservations,
-    reservationState.hours,
-  ]);
+  }, [selectedTable, date, reservations, reservationState.hours]);
 
   return (
-    <div className="group">
-      <Tooltip
-        className="invisible group-hover:visible bg-gray-1 text-black whitespace-nowrap"
-        position="top"
-        disabled={!currentSlot}
-        content={`${currentSlot?.firstName} ${currentSlot?.lastName}`}
-      >
-        <Button
-          className={cn(
-            'font-manrope text-lg w-14 p-0 rounded text-xl transition-all',
-            {
-              'bg-primary text-white': status === 'selected',
-              'bg-gray-1 hover:bg-blue-3 text-black': status === 'free',
-              'bg-gray-1 text-gray-2 cursor-default': status === 'disabled',
-              'bg-accent text-white cursor-not-allowed': status === 'busy',
-            }
-          )}
-          disabled={status !== 'free' && status !== 'selected'}
-          whileTap={
-            status !== 'free' && status !== 'selected'
-              ? undefined
-              : { scale: 0.95 }
+    <Tooltip
+      className="bg-black/50 backdrop-blur-lg rounded text-white whitespace-nowrap bottom-9 select-none"
+      position="top"
+      disabled={!user}
+      content={`${user?.firstName} ${user?.lastName}`}
+    >
+      <Button
+        className={cn(
+          'font-manrope text-lg w-full p-0 rounded text-xl transition-all',
+          {
+            'bg-primary text-white': status === 'selected',
+            'bg-gray-1 hover:bg-blue-3 text-black': status === 'free',
+            'bg-gray-1 text-gray-2 cursor-default': status === 'disabled',
+            'bg-accent text-white cursor-default': status === 'busy',
           }
-          onClick={handleClick}
-        >
-          {`${hour < 10 ? '0' : ''}${hour}:00`}
-        </Button>
-      </Tooltip>
-    </div>
+        )}
+        whileTap={
+          status !== 'free' && status !== 'selected'
+            ? undefined
+            : { scale: 0.95 }
+        }
+        onClick={
+          status === 'free' || status === 'selected' ? handleClick : undefined
+        }
+      >
+        {`${hour < 10 ? '0' : ''}${hour}:00`}
+      </Button>
+    </Tooltip>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { Button } from 'clcm';
 import cn from 'clsx';
 
 import { useDispatch, useSelector } from '@src/hooks';
@@ -39,19 +40,20 @@ const TableButton: React.VFC<Props> = ({ id, reservations, disabled }) => {
   }, [tables]);
 
   return (
-    <button
+    <Button
       className={cn(
         styles.table,
-        'font-bold text-black cursor-pointer rounded-[0.175rem] transition-[0.15s]',
+        'relative font-bold rounded-[0.25rem] transition-all p-0 font-manrope',
         {
           'bg-primary text-white': active,
-          'bg-white hover:bg-gray-1': !active && !disabled,
-          'bg-white cursor-default': disabled,
+          'bg-white hover:bg-gray-1 text-black': !active && !disabled,
+          'bg-white cursor-default text-black': disabled,
         }
       )}
       value={id}
       onClick={handleClick}
       disabled={disabled}
+      whileTap={disabled ? undefined : { scale: 0.95 }}
     >
       <div className={'text-2xl'}>
         {id}
@@ -65,7 +67,7 @@ const TableButton: React.VFC<Props> = ({ id, reservations, disabled }) => {
           )}
         />
       </div>
-    </button>
+    </Button>
   );
 };
 

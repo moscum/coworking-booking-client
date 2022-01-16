@@ -18,7 +18,11 @@ const Login: NextPage = () => {
   }, [isLoggedIn, user]);
   if (isLoading || isLoggedIn) return <AppLoadingSpinner />;
   return (
-    <div className={'flex flex-col items-center justify-center h-screen'}>
+    <div
+      className={
+        'flex flex-col items-center justify-center h-screen select-none'
+      }
+    >
       <AuthForm />
     </div>
   );
