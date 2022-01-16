@@ -7,7 +7,7 @@ import SlotButton from '@components/SlotButton';
 import { useDispatch, useSelector } from '@src/hooks';
 import { Reservation } from '@src/types';
 import {
-  selectReservation,
+  selectReservationState,
   setReservationDate,
   updateTimeSlots,
 } from '@store/reservation';
@@ -25,7 +25,7 @@ const TimePicker: React.VFC<Props> = ({ reservations, date }) => {
   const hours: number[] = Array.from({ length: 14 }, (_, i) => 8 + i);
   const tables = useSelector(selectTables);
   const selectedTable = useSelector(selectTable);
-  const reservation = useSelector(selectReservation);
+  const reservation = useSelector(selectReservationState);
 
   const handleClick = () => {
     if (reservation.reservationDate !== date) {
