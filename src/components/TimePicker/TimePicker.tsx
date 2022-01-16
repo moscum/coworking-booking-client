@@ -52,10 +52,10 @@ const TimePicker: React.VFC<Props> = ({ reservations, date }) => {
   }, [selectedTable, tables, reservation]);
 
   return (
-    <div>
+    <div className={'relative'}>
       <Button
         className={cn(
-          'font-manrope text-lg px-2 py-0 mb-1 rounded text-xl transition-all',
+          'absolute right-0 -top-8 font-manrope text-lg px-2 py-0 mb-1 rounded text-xl transition-all',
           {
             'animate-shine cursor-wait text-transparent': status === 'loading',
             'bg-primary text-white': status === 'selected',

@@ -35,7 +35,7 @@ const DatePicker: React.VFC = () => {
   });
 
   useEffect(() => {
-    dispatch(getTables(date!));
+    if (date) dispatch(getTables(date));
     dispatch(updateTimeSlots({ time: null }));
     dispatch(updateDaySlots(null));
   }, [date]);

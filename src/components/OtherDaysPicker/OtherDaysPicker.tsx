@@ -29,19 +29,21 @@ const OtherDaysPicker: React.VFC = () => {
   const otherDayTables = useSelector(selectOtherDayTables);
 
   useEffect(() => {
-    const nextDate = new Date(date!);
-    nextDate.setDate(nextDate.getDate() + 1);
-    dispatch(
-      getOtherDayTables({ id: 1, date: nextDate.toLocaleDateString('sv') })
-    );
-    nextDate.setDate(nextDate.getDate() + 1);
-    dispatch(
-      getOtherDayTables({ id: 2, date: nextDate.toLocaleDateString('sv') })
-    );
-    nextDate.setDate(nextDate.getDate() + 1);
-    dispatch(
-      getOtherDayTables({ id: 3, date: nextDate.toLocaleDateString('sv') })
-    );
+    if (date) {
+      const nextDate = new Date(date);
+      nextDate.setDate(nextDate.getDate() + 1);
+      dispatch(
+        getOtherDayTables({ id: 1, date: nextDate.toLocaleDateString('sv') })
+      );
+      nextDate.setDate(nextDate.getDate() + 1);
+      dispatch(
+        getOtherDayTables({ id: 2, date: nextDate.toLocaleDateString('sv') })
+      );
+      nextDate.setDate(nextDate.getDate() + 1);
+      dispatch(
+        getOtherDayTables({ id: 3, date: nextDate.toLocaleDateString('sv') })
+      );
+    }
   }, [tableId, date]);
 
   return (
