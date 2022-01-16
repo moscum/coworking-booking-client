@@ -28,6 +28,7 @@ export const reservationReducer = createReducer(initialState, (builder) =>
 
     .addCase(actions.updateTimeSlots.fulfilled, (state, action) => {
       if (action.payload === null) state.hours = [];
+      else if (Array.isArray(action.payload)) state.hours = action.payload;
       else {
         const index = state.hours.findIndex((i) => i === action.payload);
         if (index === -1) state.hours = [...state.hours, action.payload];

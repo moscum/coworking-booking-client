@@ -25,7 +25,7 @@ const TableButton: React.VFC<Props> = ({ id, reservations, disabled }) => {
   const handleClick = () => {
     if (!active) dispatch(setSelectedTable({ id, reservations }));
     if (active) dispatch(setSelectedTable(null));
-    dispatch(updateTimeSlots(null));
+    dispatch(updateTimeSlots({ time: null }));
     dispatch(updateDaySlots(null));
   };
 
