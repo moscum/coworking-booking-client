@@ -39,6 +39,8 @@ const DaySlotButton: React.VFC<Props> = ({ day }) => {
         'bg-gray-1 text-gray-2 cursor-default': status === 'disabled',
       })}
       onClick={handleClick}
+      disabled={status === 'disabled'}
+      whileTap={status === 'disabled' ? undefined : { scale: 0.95 }}
     >
       {dayOfWeek[day]}
     </Button>

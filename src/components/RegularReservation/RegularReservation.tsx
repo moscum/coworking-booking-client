@@ -4,8 +4,9 @@ import cn from 'clsx';
 import { motion, Variants } from 'framer-motion';
 
 import DaySlotButton from '@components/DaySlotButton';
-import { useDispatch } from '@src/hooks';
+import { useDispatch, useSelector } from '@src/hooks';
 import { updateDaySlots } from '@store/reservation';
+import { selectTables } from '@store/table';
 
 const variants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.15 } },
@@ -14,6 +15,7 @@ const variants: Variants = {
 
 const RegularReservation: React.VFC = () => {
   const dispatch = useDispatch();
+  const tables = useSelector(selectTables);
 
   const [visible, setVisible] = useState(false);
   const [display, setDisplay] = useState(false);
@@ -46,9 +48,16 @@ const RegularReservation: React.VFC = () => {
         onAnimationComplete={!visible ? () => setDisplay(false) : undefined}
       >
         <div className={cn('grid grid-cols-7 gap-1', display ? '' : 'hidden')}>
-          {[1, 2, 3, 4, 5, 6, 0].map((i) => (
-            <DaySlotButton key={i} day={i} />
-          ))}
+          {[1, 2, 3, 4, 5, 6, 0].map((i) =>
+            tables ? (
+              <DaySlotButton key={i} day={i} />
+            ) : (
+              <div
+                key={i}
+                className={'h-7 rounded animate-shine cursor-wait'}
+              />
+            )
+          )}
         </div>
       </motion.div>
     </div>

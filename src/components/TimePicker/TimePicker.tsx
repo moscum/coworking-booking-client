@@ -40,40 +40,47 @@ const TimePicker: React.VFC<Props> = ({ reservations, date }) => {
   };
 
   useEffect(() => {
-    if (!tables) setStatus('loading');
-    else if (
-      reservation.hours.length === 14 &&
-      reservation.reservationDate === date
-    )
+    const time = new Date(date);
+    time.setHours(8);
+    if (reservation.hours.length === 14 && reservation.reservationDate === date)
       setStatus('selected');
+    else if (
+      !selectedTable ||
+      (reservations.length > 0 && reservations.length < 14) ||
+      new Date().getTime() > time.getTime()
+    )
+      setStatus('disabled');
     else if (selectedTable && reservations.length === 14) setStatus('busy');
-    else if (!selectedTable || reservations.length !== 0) setStatus('disabled');
     else setStatus('free');
-  }, [selectedTable, tables, reservation]);
+  }, [selectedTable, tables, reservation, date]);
 
   return (
     <div className={'relative'}>
-      <Button
-        className={cn(
-          'absolute right-0 -top-8 font-manrope text-lg px-2 py-0 mb-1 rounded text-xl transition-all',
-          {
-            'animate-shine cursor-wait text-transparent': status === 'loading',
+      <div
+        className={cn('absolute right-0 -top-8 rounded', {
+          'animate-shine cursor-wait': !tables,
+        })}
+      >
+        <Button
+          className={cn('font-manrope text-lg px-2 py-0 rounded text-xl', {
+            invisible: !tables,
+            'transition-all': tables,
             'bg-primary text-white': status === 'selected',
             'bg-gray-1 hover:bg-blue-3 text-black': status === 'free',
             'bg-gray-1 text-gray-2 cursor-default': status === 'disabled',
             'bg-accent text-white cursor-not-allowed': status === 'busy',
+          })}
+          disabled={status !== 'free' && status !== 'selected'}
+          whileTap={
+            status !== 'free' && status !== 'selected'
+              ? undefined
+              : { scale: 0.95 }
           }
-        )}
-        disabled={status !== 'free' && status !== 'selected'}
-        whileTap={
-          status !== 'free' && status !== 'selected'
-            ? undefined
-            : { scale: 0.95 }
-        }
-        onClick={handleClick}
-      >
-        Весь день
-      </Button>
+          onClick={handleClick}
+        >
+          Весь день
+        </Button>
+      </div>
 
       <div className="grid grid-cols-7 gap-1 mb-3">
         {tables
