@@ -63,7 +63,11 @@ const TableButton: React.VFC<Props> = ({ id, reservations, disabled }) => {
             'absolute  bottom-[-1rem] w-7 h-7 border-solid border-4 border-white rounded-[50%]',
             reservations.length === 0 && 'bg-success',
             reservations.length === 14 && 'bg-accent',
-            reservations.length > 0 && reservations.length < 14 && 'bg-primary'
+            reservations.length > 0 &&
+              reservations.length < 14 &&
+              !disabled &&
+              'bg-[#f2c94c]',
+            disabled && 'bg-primary'
           )}
         />
       </div>
