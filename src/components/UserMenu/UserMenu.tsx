@@ -97,14 +97,16 @@ const UserMenu: React.VFC = () => {
               История
             </Button>
           </Link>
-          <Button
-            className={
-              'bg-white border-solid font-manrope border-2 border-primary text-primary rounded px-6 py-0.5 transition-all hover:bg-blue-3 shadow-md'
-            }
-            onClick={() => dispatch(logout())}
-          >
-            Выйти
-          </Button>
+          <Link href={'/login'} passHref>
+            <Button
+              className={
+                'bg-white border-solid font-manrope border-2 border-primary text-primary rounded px-6 py-0.5 transition-all hover:bg-blue-3 shadow-md'
+              }
+              onClick={() => dispatch(logout())}
+            >
+              Выйти
+            </Button>
+          </Link>
         </div>
       </motion.div>
     </div>
